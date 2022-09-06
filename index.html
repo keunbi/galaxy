@@ -58,11 +58,11 @@
     .f_container{position:relative;width:auto;height:auto}
 
 
-    #galaxy-excellence{margin:150px 0 800px; overflow:visible;}
+    #galaxy-excellence{margin:150px 0 700px; overflow:visible;}
     .sticky-wrap{position:relative; height:1900px}
-    .sticky-wrap .sticky-inner{position:sticky; top:0; width:100%; overflow:hidden}
-    .mobile-move{padding-top:100px}
-    .mobile-move ul{display:flex}
+    .sticky-wrap .sticky-inner{position:sticky; top:0; width:100%; /*overflow:hidden*/}
+    .mobile-move{padding-top:80px}
+    .mobile-move ul{display:flex; position:relative; left:50%; margin-left:-500px}
     .mobile-move li + li{margin-left:20px}
     .mobile-move li .inner{width:484px; height:535px; background-color:#f4f5f7}
     .f_header-type1{width:988px; margin:0 auto; position:relative}
@@ -235,7 +235,7 @@
     <script src="/global/galaxy/common/js/jquery.js"></script>
     <script src="/global/galaxy/common/js/plugins.js"></script>
     <script src="/global/galaxy/common/js/common.js"></script>
-    <script src="test.js"></script>
+    <!-- <script src="test.js"></script> -->
  
     <script>
         $(".color-btn li label").click(function(){  
@@ -425,8 +425,6 @@
 
         //sticky slide
         
-        /*
-
         nowScroll();  
 
         function nowScroll(){
@@ -448,9 +446,9 @@
             
             $(window).scroll(function  () {	
                 horizontal[0].style.transform = 'translateX(' + (-$(spaceHolder).offset().top + scrollCal) + 'px) rotate(.001deg)';
-            });
+            }); 
         };
-        */
+        
 
 
     </script>
