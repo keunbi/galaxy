@@ -58,17 +58,22 @@
     .f_container{position:relative;width:auto;height:auto}
 
 
-    #galaxy-excellence{margin:150px 0 700px; overflow:visible;}
-    .sticky-wrap{position:relative; height:1900px}
-    .sticky-wrap .sticky-inner{position:sticky; top:0; width:100%; /*overflow:hidden*/}
+    #galaxy-excellence{margin:150px 0 500px; overflow:visible;}
+    #galaxy-excellence .sticky-wrap{position:relative; height:1900px}
+    #galaxy-excellence .sticky-wrap .sticky-inner{position:sticky; top:0; width:100%; overflow:hidden}
     .mobile-move{padding-top:80px}
     .mobile-move ul{display:flex; position:relative; left:50%; margin-left:-500px}
     .mobile-move li + li{margin-left:20px}
     .mobile-move li .inner{width:484px; height:535px; background-color:#f4f5f7}
     .f_header-type1{width:988px; margin:0 auto; position:relative}
     .f_header-type1 strong{font-size:50px; color:#000}
-
     #subnav{position:fixed; top:0; left:0; height:96px;}
+
+
+    .sticky-box{position:relative; height:600px; border:1px solid red; margin-bottom:1000px}
+    .sticky-box .bg-con{position:absolute; top:0; left:0; width:100%; height:100%; background-color:lightgray}
+    .sticky-box .inner-txt{position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items: center; justify-content: center; font-size:10px; color:#000}
+    .sticky-box .dim{position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity: 0.5;}
 </style>
 
 <body>
@@ -211,24 +216,16 @@
             </div>
         </section>
 
-        <section class="m_content_overview">
-            <div class="m_feature-overview">
-                <div class="sticky-wrap">
-                    <div class="sticky-inner">
-                        <div class="mask-wrap">
-                            <div class="mask-inner">
-                                <ul class="text-list">
-                                    <li class="text-item"><strong>Text1</strong></li>
-                                    <li class="text-item"><strong>Text2</strong></li>
-                                    <li class="text-item"><strong>Text3</strong></li>
-                                    <li class="text-item"><strong>Text4</strong></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+        <section class="sticky-box">
+            <div class="">
+                <div class="bg-con"></div>
+                <div class="inner-txt">
+                    text
                 </div>
+                <div class="dim"></div>
             </div>
         </section>
+
 
     </div>
 
@@ -432,8 +429,9 @@
             var horizontal = document.querySelectorAll('.mobile-move ul');
             var spaceHolder = document.querySelectorAll('.sticky-inner');
             var scrollCal = $(spaceHolder).offset().top;
-
+        
             
+
             function calcDynamicHeight(ref) {
                 var vw = window.innerWidth;
                 var vh = window.innerHeight;
@@ -444,11 +442,25 @@
 
             wrap[0].style.height = calcDynamicHeight(horizontal[0]) + 'px';
             
+
             $(window).scroll(function  () {	
                 horizontal[0].style.transform = 'translateX(' + (-$(spaceHolder).offset().top + scrollCal) + 'px) rotate(.001deg)';
+                //console.log($(spaceHolder).offset().top , scrollCal)
             }); 
         };
+
+
+        // 스크롤이벤트
+        $(window).scroll(function(){    
+            now = $(window).scrollTop();
+            object = $('.sticky-box').offset().top;
+            $('.dim').css('opacity',1 - now/4000);
+            //$('.inner-txt').css('opacity',1 - now/4000)
+        })  
+
+
         
+
 
 
     </script>
