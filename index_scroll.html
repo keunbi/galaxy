@@ -9,20 +9,8 @@
 
 <style>
 body{margin:0}
-.wrap{display:flex; justify-content: center; align-items:center; width:100%; margin-bottom:1000px}
+.wrap{display:flex; justify-content: center; align-items:center; width:100%; margin-bottom:1500px}
 .wrap-inner{position:relative; width:100%; text-align:center}
-.box{text-align:center; display:flex; justify-content: center; align-items: center; width:100%; height:500px; color:#fff; font-size:20px}
-.box-border{border:2px solid #ddd; margin:300px 0; width:100%; height:500px; overflow: hidden;}
-.box-02{background:#000; }
-.box-03{overflow: hidden; position:relative}
-.box-03 .bg{background-image: url(/images/galaxy-z-flip4_highlights_camera_img01.jpg); background-repeat: no-repeat; background-size: cover; background-position: center; position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1}
-.move-box{border:2px solid #ddd}
-.move-box .box{width:300px; height:300px; background:#000; text-align:center; color:#fff; display:flex; align-items: center; justify-content: center;}
-.active-list{text-align:left; margin-top:150px}
-.active-list ul{padding:0; margin:0}
-.active-list ul li{display:block; padding:30px; font-size:25px; color:#000; opacity:0.2; transition:opacity 0.5s; font-weight:bold}
-.active-list ul li + li{margin-top:20px}
-.active-list ul li.active{opacity:1}
 
 .sticky-con{position:relative; height:2000px; margin-top:200px}
 .sticky-con .sticky-inner{position: sticky; top:0px; height:1200px}
@@ -41,26 +29,17 @@ body{margin:0}
 .img-list{width:652px; margin:0 auto; margin-top:-1005px}
 .img-list figure{width:652px; height:407px; margin:0 0 28px}
 .img-list figure img{width:100%; height:100%}
+
+.play-video-con{position:relative; width:1200px; margin:300px auto 0}
+.play-video-con button{position:absolute; right:30px; bottom:30px; background:transparent; border:1px solid #fff; width:80px; height:30px; box-sizing:border-box; z-index:9; color:#fff; cursor:pointer}
+
+
+.video-sticky-con .sticky-inner{height:auto}
 </style>
 <body>
     <div class="wrap">
         <div class="wrap-inner">
 
-            <!-- opacity 변경 -->
-            <div class="box-border">
-                <div class="box box-02">opacity 변경</div>
-            </div>
-            <!-- scale 변경 -->
-            <div class="box-border">
-                <div class="box box-03">
-                    scale 변경
-                    <div class="bg"></div>
-                </div>
-            </div>
-            <!-- translate 변경 -->
-            <div class="move-box">
-                <div class="box">translate move</div>
-            </div>
             <!-- sticky -->
             <div class="sticky-con">
                 <div class="sticky-inner">
@@ -73,8 +52,9 @@ body{margin:0}
                     <div class="dim"></div>
                 </div>
             </div>
+
             <!-- sticky -->
-            <div class="">
+            <div class="sticky-con-02">
                 <div class="sticky-con con-02">
                     <div class="sticky-inner">
                         <div class="box-wrap">
@@ -92,17 +72,24 @@ body{margin:0}
                     <figure class="img"><img src="/images/galaxy-s22-ultra_highlights_nightography_bg.jpg"></figure>
                 </div>
             </div>
-
             
+            <!-- play버튼으로 비디오재생 -->
+            <div class="play-video-con">
+                <video class="video" src="/images/galaxy-z-fold4_highlights_nightography.mp4" muted></video>
+                <button type="button" class="video-btn">PLAY</button>
+            </div>
 
-            <!-- <div class="active-list">
-                <ul>
-                    <li>active 클래스가 붙는 텍스트</li>
-                    <li>active 클래스가 붙는 텍스트</li>
-                    <li>active 클래스가 붙는 텍스트</li>
-                    <li>active 클래스가 붙는 텍스트</li>
-                </ul>
-            </div> -->
+            <!-- 비디오제어 -->
+            <div class="sticky-con video-sticky-con">
+                <div class="sticky-inner">
+                    <video class="sample-video" src="/images/galaxy-z-fold4_highlights_nightography.mp4" muted></video>
+                </div>
+            </div>
+
+            <!-- 이미지 시퀀스 제어 -->
+
+            <!-- 기본 스크롤 슬라이드 -->
+            
         </div>
     </div>
 
@@ -111,133 +98,6 @@ body{margin:0}
 <script>
 
 
-
-
-
-
-// opacity 변경 1 -> 0
-function opacityEvent(){ 
-    const box = document.querySelector('.box-02');
-    const $boxTop = $('.box-02').offset().top; //box가 있는 위치값 
-    const scrollHeight = box.scrollHeight; // box 높이
-    
-
-    const partScrollStart = 0.1 * scrollHeight; //box 안에서 이벤트가 실행될 시점 비율
-    const partScrollEnd = 0.5 * scrollHeight; //box 안에서 이벤트가 종료될 시점 비율
-    const partScrollHeight = partScrollEnd - partScrollStart; //이벤트가 진행될 시점 비율
-    const currentYOffset = window.pageYOffset; //현재 스크롤 위치
-
-    //box 안에서 따로 이벤트 시작,종료 시점이 없이 전체에서 이벤트가 이루어질 경우 퍼센트
-    //const scrollRatio = Math.max(0, (window.pageYOffset - $boxTop) / box.scrollHeight);
-
-
-    //box 안에서 이벤트 시작,종료 시점이 지정되어 있는 경우
-    const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
-
-    let opacityValue = 0; //초기값 지정
-
-    /*
-    if(currentYOffset >= $boxTop){
-        if(currentYOffset > $boxTop + box.clientHeight){
-            opacityValue = 1;
-        }else{
-            opacityValue = scrollRatio * ( 1 - 0 ) + 0;
-            //translateYValue = scrollRatio * ( 200 - 100 ) + 100;
-        }
-    }else if(currentYOffset < $boxTop){
-        opacityValue = 0;
-    }*/
-
-    if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
-        opacityValue = scrollRatio * ( 0 - 1 ) + 1;
-    }else if(currentYOffset - $boxTop < partScrollStart){ //시작점보다 위에 있을 경우 초기값으로 설정
-        opacityValue = 1;
-    }else if(currentYOffset - $boxTop > partScrollEnd){ //종료시점보다 아래 있을 경우 끝나는값으로 설정
-        opacityValue = 0;
-    }
-            
-
-    box.style.opacity = opacityValue; //구한 값 속성으로 지정
-}
-
-
-// scale 변경 1.5 -> 1
-function scaleEvent(){ 
-    const box = document.querySelector('.box-03');
-    const boxBg = box.querySelector('.bg');
-    const $boxTop = $('.box-03').offset().top; //box가 있는 위치값
-    const scrollHeight = box.scrollHeight; // box 높이
-    const partScrollStart = 0.1 * scrollHeight; //box 안에서 이벤트가 실행될 시점 비율
-    const partScrollEnd = 0.5 * scrollHeight; //box 안에서 이벤트가 종료될 시점 비율
-    const partScrollHeight = partScrollEnd - partScrollStart; //이벤트가 진행될 시점 비율
-    const currentYOffset = window.pageYOffset; //현재 스크롤 위치
-
-
-    //box 안에서 이벤트 시작,종료 시점이 지정되어 있는 경우
-    //const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
-
-    //box 안에서 따로 이벤트 시작,종료 시점이 없이 전체에서 이벤트가 이루어질 경우 퍼센트
-    const scrollRatio = Math.max(0, (currentYOffset - $boxTop) / box.scrollHeight);
-
-    let scaleValue = 0; 
-
-    if(currentYOffset >= $boxTop){ // 현재 스크롤값이 box의 위치와 같거나 클때
-        if(currentYOffset > $boxTop + box.clientHeight){ // 현재 스크롤값이 box의 끝보다 아래 있을 때 (이벤트 영역이 끝났을 때)
-            scaleValue = 1; 
-        }else{
-            scaleValue = scrollRatio * ( 1 - 1.5 ) + 1.5;
-        }
-    }else if(currentYOffset < $boxTop){ // 현재 스크롤이 box의 위치보다 위에 있을 때 (이밴트 영역에 도달하지 않았을 때)
-        scaleValue = 1.5;
-    }
-        
-    boxBg.style.transform = `scale(${scaleValue})`; //구한 값 속성으로 지정
-}
-
-
-// translate3D 변경 0 -> -100
-function translateEvent(){ 
-    const box = document.querySelector('.move-box');
-    const moveBox = box.querySelector('.box');
-    const $boxTop = $('.move-box').offset().top - ($('.move-box').offset().top * 0.3); //box가 있는 위치값
-    const scrollHeight = box.scrollHeight; // box 높이
-    const currentYOffset = window.pageYOffset; //현재 스크롤 위치
-
-    //box 안에서 따로 이벤트 시작,종료 시점이 없이 전체에서 이벤트가 이루어질 경우 퍼센트
-    const scrollRatio = Math.max(0, (currentYOffset - $boxTop) / box.scrollHeight);
-
-    let scaleValue = 0; 
-
-    if(currentYOffset >= $boxTop){ // 현재 스크롤값이 box의 위치와 같거나 클때
-        if(currentYOffset > $boxTop + box.clientHeight){ // 현재 스크롤값이 box의 끝보다 아래 있을 때 (이벤트 영역이 끝났을 때)
-            scaleValue = -100; 
-        }else{
-            scaleValue = scrollRatio * ( -100 - 0 ) + 0;
-        }
-    }else if(currentYOffset < $boxTop){ // 현재 스크롤이 box의 위치보다 위에 있을 때 (이밴트 영역에 도달하지 않았을 때)
-        scaleValue = 0;
-    }
-        
-    moveBox.style.transform = `translate3D(0,${scaleValue}px,0)`; //구한 값 속성으로 지정
-}
-
-
-// 스크롤값에 따라 active클래스 추가 및 제거
-function activeEvent(){ 
-    const currentYOffset = window.pageYOffset; //현재 스크롤 위치
-
-    $('.active-list li').each(function(){
-        let listTop = $(this).offset().top;
-        //console.log(listTop)
-        if(currentYOffset + (currentYOffset * 0.1) > listTop){  
-            $('.active-list li').removeClass('active');
-            $(this).addClass('active')
-        }else{
-            $(this).removeClass('active')
-        }
-
-    })   
-}
 
 
 // sticky 컨텐츠
@@ -294,7 +154,6 @@ function stickyEvent(){
 function stickyImgEvent(){ 
     const stickyCon = document.querySelector('.sticky-con.con-02');
     const stickyInner = document.querySelector('.sticky-con.con-02 .sticky-inner');
-    const imgList = document.querySelector('.sticky-con.con-02 .img-list');
     const $boxTop = $('.sticky-con.con-02').offset().top; //box가 있는 위치값 
     const scrollHeight = stickyInner.scrollHeight; // box 높이
     const currentYOffset = window.pageYOffset; //현재 스크롤 위치
@@ -304,6 +163,12 @@ function stickyImgEvent(){
     const scaleImg = document.querySelector('.scale-img');
     scaleImg.style.width = `${windowWidth}px`;
     scaleImg.style.height = `${windowHeight}px`;
+    const imgList = document.querySelector('.sticky-con-02 .img-list');
+    const imgListBox = imgList.querySelector('.img').scrollHeight;
+    const margin = -windowHeight*.65 - imgListBox/2;
+    imgList.style.marginTop = `${margin}px`
+
+
     const aniInfo = [
         {
             objs:{
@@ -317,7 +182,7 @@ function stickyImgEvent(){
                 scaleImg_width : [windowWidth, 652, {start : 0.3, end : 0.5}],
                 scaleImg_height : [windowHeight, 407, {start : 0.3, end : 0.5}]
             }
-        }
+        } 
     ]
     const values = aniInfo[0].values; //값에 해당하는 것들
     const objs = aniInfo[0].objs; //DOM 객체들
@@ -335,7 +200,6 @@ function stickyImgEvent(){
             const partScrollHeight = partScrollEnd - partScrollStart;
             const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
 
-            
             if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
                 rv = (currentYOffset - $boxTop - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
                 //console.log('영역 안')
@@ -360,29 +224,98 @@ function stickyImgEvent(){
     objs.scaleImg.style.width = `${calcValues(values.scaleImg_width)}px`;
     objs.scaleImg.style.height = `${calcValues(values.scaleImg_height)}px`;
 
-    
 }
-console.log(1223 - (-1136))
+
+// 해당영역 도달 시 비디오 재생
+function playVideo(){  
+    const currentYOffset = window.pageYOffset; //현재 스크롤 위치
+    const video = document.querySelector('.play-video-con .video');
+    const boxTop = document.querySelector('.play-video-con').offsetTop; //box가 있는 위치값 
+    const boxHeight = video.scrollHeight
+    const currentBtset = currentYOffset + window.innerHeight;
+    const $btn = $('.video-btn');
+
+    $btn.click(function(){
+        if($btn.hasClass('is-play')){
+            _pause();
+        }else{
+            _play();
+        }
+    })
+
+    const _play = function () {
+        video.play();
+        $btn.text('PAUSE');
+        $btn.addClass('is-play');
+    }
+    const _pause = function () {
+        video.pause();
+        $btn.text('PLAY');
+        $btn.removeClass('is-play');
+    }
+
+    /*
+    if(currentBtset - boxHeight >= boxTop){ //비디오가 화면 중간정도 왔을때 재생
+        if(currentYOffset > boxTop + boxHeight * 0.5){
+            _pause();
+            console.log('멈춤2')
+        }else{
+            _play();
+            console.log('재생')
+        }
+    }else if(currentBtset < boxTop){ // 화면끝이 비디오 영역보다 높을때 (스크롤이 비디오영역보다 높을 때) 멈춤
+        _pause();
+        console.log('멈춤')
+    }*/
+
+}
+
+
+function stickyVideo(){
+    const videoElem = document.querySelector('.sample-video');
+    const videoCon = document.querySelector('.video-sticky-con');
+    const videoTop = videoCon.offsetTop; //box가 있는 위치값 
+    const videoInner = videoCon.querySelector('.sticky-inner');
+    let progress;
+    let currentFrame;
+    function init() {
+        document.body.classList.remove('before-load');
+
+        window.addEventListener('scroll', function () {
+            //현재 얼마나 스크롤됐는지를 비율로 구함 
+
+
+            progress = (window.pageYOffset - videoTop) / videoInner.scrollHeight;
+            console.log(progress);
+
+            if (progress < 0) progress = 0;
+            if (progress > 1) progress = 1;
+
+            if(window.pageYOffset >= videoTop){
+                videoElem.currentTime = videoElem.duration * progress;
+            }
+
+        });
+    }
+
+	window.addEventListener('load', init);
+}
 
 
 
-
-
-
-
+stickyVideo();
 window.addEventListener('scroll', function () {
-    opacityEvent();
-    scaleEvent();
-    translateEvent();
-    //activeEvent();
     stickyEvent();
     stickyImgEvent();
+    //playVideo();
 });
 window.addEventListener('load', function () {
-    opacityEvent();
-    scaleEvent();
-    translateEvent();
-    //activeEvent();
+    stickyEvent();
+    stickyImgEvent();
+    playVideo();
+    
+});
+window.addEventListener('resize', function () {
     stickyEvent();
     stickyImgEvent();
 });
