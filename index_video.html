@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+html, body, div, video, h3{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.wrap{margin:300px 0 1000px}
+.wrap-inner{position:relative; width:100%; text-align:center}
+
+.play-video-con{position:relative; width:1200px; margin:0 auto 200px}
+.play-video-con button{position:absolute; right:30px; bottom:30px; background:transparent; border:1px solid #fff; width:80px; height:30px; box-sizing:border-box; z-index:9; color:#fff; cursor:pointer}
+
+.sticky-con{position:relative; height:2000px;}
+.video-sticky-inner{position: sticky; top:0;}
+.video-wrap{max-width:1200px; margin:0 auto; text-align:left;}
+.video-wrap .title{padding:50px 0 30px}
+.video-sticky-con{background:#eee}
+.canvas-video-con{margin-top:200px; background:#eee}
+</style>
+<body>
+    <div class="wrap">
+        <div class="wrap-inner">
+
+            <!-- play버튼으로 비디오재생 -->
+            <div class="play-video-con">
+                <video class="video" src="/images/galaxy-z-fold4_highlights_nightography.mp4" muted></video>
+                <button type="button" class="video-btn">PLAY</button>
+            </div>
+
+
+            <!-- 비디오태그 스크롤 제어 -->
+            <div class="video-sticky-con">
+                <div class="sticky-con">
+                    <div class="video-sticky-inner">
+                        <div class="video-wrap">
+                            <h3 class="title">video 스크롤제어</h3>
+                            <video class="sample-video" muted>
+                                <source src="/images/galaxy-z-fold4_highlights_nightography.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 캔버스 비디오 스크롤 제어 -->
+            <div class="canvas-video-con">
+                <div class="sticky-con">
+                    <div class="video-sticky-inner">
+                        <div class="video-wrap">
+                            <h3 class="title">canvas video 스크롤제어</h3>
+                            <div class="video-con">
+                                <canvas id="canVideo" width="1200" height="674" data-src="/images/galaxy-z-fold4_highlights_nightography.mp4"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            
+            
+        </div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+
+
+// 해당영역 도달 시 비디오 재생
+function playVideo(){  
+    const currentYOffset = window.pageYOffset; //현재 스크롤 위치
+    const video = document.querySelector('.play-video-con .video');
+    const boxTop = document.querySelector('.play-video-con').offsetTop; //box가 있는 위치값 
+    const boxHeight = video.scrollHeight
+    const currentBtset = currentYOffset + window.innerHeight;
+    const $btn = $('.video-btn');
+
+    $btn.click(function(){
+        if($btn.hasClass('is-play')){
+            _pause();
+        }else{
+            _play();
+        }
+    })
+
+    const _play = function () {
+        video.play();
+        $btn.text('PAUSE');
+        $btn.addClass('is-play');
+    }
+    const _pause = function () {
+        video.pause();
+        $btn.text('PLAY');
+        $btn.removeClass('is-play');
+    }
+
+    /*
+    if(currentBtset - boxHeight >= boxTop){ //비디오가 화면 중간정도 왔을때 재생
+        if(currentYOffset > boxTop + boxHeight * 0.5){
+            _pause();
+            console.log('멈춤2')
+        }else{
+            _play();
+            console.log('재생')
+        }
+    }else if(currentBtset < boxTop){ // 화면끝이 비디오 영역보다 높을때 (스크롤이 비디오영역보다 높을 때) 멈춤
+        _pause();
+        console.log('멈춤')
+    }*/
+
+}
+
+
+// video태그 스크롤제어
+const videoScroll = function () {
+    const $section = $('.video-sticky-con');
+    const videoElem = document.querySelector('.video-sticky-con .sample-video');
+    const videoHeight = document.querySelector('.video-sticky-inner');
+
+  let videoDuration;
+
+  const init = function () {   
+    const heightVideo = document.querySelector('.sample-video').scrollHeight;
+    $videoWrapHeight = $('.video-sticky-con .video-wrap').height(); // 타이틀,비디오 감싼 영역 높이
+    videoDuration = videoElem.duration;
+
+    const play = function () {
+
+        const scrollTop = window.pageYOffset - $section.offset().top; //현재스크롤값 - 비디오영역 위치한 높이값 :: 비디오영역 안에서 스크롤 된 값
+        const moveArea = $section.height() - $videoWrapHeight; // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
+        let percent = Math.max(0, Math.min(1, scrollTop / moveArea)); // 이벤트가 진행될 구간에서 스크롤이 진행된 비율
+        let sequence = videoDuration * percent; // 비디오 전체 길이 * 스크롤 진행된 비율
+
+        videoElem.currentTime = sequence; //비디오 현재 시간 지정
+    }
+    window.addEventListener('scroll', play);
+  }
+
+
+  videoElem.addEventListener('loadeddata', init);
+  
+}
+
+
+// canvas video 스크롤제어
+const videoCanvas = function () {
+  const $section = $('.canvas-video-con');
+  const $canvas = $('.canvas-video-con canvas');
+  const context = $canvas[0].getContext('2d');
+  const $videoWrapHeight = $('.canvas-video-con .video-wrap').height(); // 비디오,타이틀 감싼 영역 높이
+  const $videoElem = document.createElement('video'); //비디오 요소 만들어 반환
+  const videoSrc = $canvas.data('src');
+  let videoDuration;
+  $videoElem.src = videoSrc;
+
+  const _init = function () {
+    context.drawImage($videoElem, 0, 0, $canvas.width(), $canvas.height());
+    videoDuration = $videoElem.duration;
+
+    const _play = function () {
+        const scrollTop = window.pageYOffset - $section.offset().top;
+        const moveArea = $section.height() - $videoWrapHeight;
+        let percent = Math.max(0, Math.min(1, scrollTop / moveArea));
+        let sequence = videoDuration * percent;
+        $videoElem.currentTime = sequence;
+    }
+
+    window.addEventListener('scroll', _play);
+
+  }
+
+  
+
+  $videoElem.addEventListener('canplaythrough', _init);
+ 
+
+}
+
+
+
+
+
+
+window.addEventListener('load', function () {
+    videoScroll();
+    playVideo();
+    videoCanvas();
+    
+});
+
+</script>
+</body>
+</html>
+
+
