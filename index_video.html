@@ -27,6 +27,12 @@ html, body, div, video, h3{
 .video-wrap .title{padding:50px 0 30px}
 .video-sticky-con{background:#eee}
 .canvas-video-con{margin-top:200px; background:#eee}
+
+.auto-video-con{margin-top:200px;}
+.auto-video-con .video-img-con{position:relative}
+.auto-video-con .video-wrap.ended{}
+.auto-video-con .img-box{position: absolute; top:0; left:0; width:100%; height:100%; background:#eee; opacity:0; display:flex; justify-content: center; align-items: center;}
+.auto-video-con .video-wrap.ended .img-box{opacity:1}
 </style>
 <body>
     <div class="wrap">
@@ -67,6 +73,23 @@ html, body, div, video, h3{
                 </div>
             </div>
 
+            <!-- 해당영역 도달 시 비디오 재생 후 이미지로 전환 -->
+            <div class="auto-video-con">
+                <div class="video-wrap">
+                    <h3 class="title">영역 도달 시 비디오 재생 후 이미지 전환</h3>
+                    <div class="video-img-con">
+                        <video class="video" muted>
+                            <source src="/images/galaxy-z-fold4_highlights_nightography.mp4" type="video/mp4">
+                        </video>
+                        <div class="img-box">이미지 전환</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- 이미지 시퀀스 이용한 캔버스 -->
+
 
             
             
@@ -80,7 +103,7 @@ html, body, div, video, h3{
 
 
 // 해당영역 도달 시 비디오 재생
-function playVideo(){  
+function clickVideo(){  
     const currentYOffset = window.pageYOffset; //현재 스크롤 위치
     const video = document.querySelector('.play-video-con .video');
     const boxTop = document.querySelector('.play-video-con').offsetTop; //box가 있는 위치값 
@@ -138,17 +161,14 @@ const videoScroll = function () {
     videoDuration = videoElem.duration;
 
     const play = function () {
-
         const scrollTop = window.pageYOffset - $section.offset().top; //현재스크롤값 - 비디오영역 위치한 높이값 :: 비디오영역 안에서 스크롤 된 값
         const moveArea = $section.height() - $videoWrapHeight; // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
         let percent = Math.max(0, Math.min(1, scrollTop / moveArea)); // 이벤트가 진행될 구간에서 스크롤이 진행된 비율
         let sequence = videoDuration * percent; // 비디오 전체 길이 * 스크롤 진행된 비율
-
         videoElem.currentTime = sequence; //비디오 현재 시간 지정
     }
     window.addEventListener('scroll', play);
   }
-
 
   videoElem.addEventListener('loadeddata', init);
   
@@ -167,10 +187,10 @@ const videoCanvas = function () {
   $videoElem.src = videoSrc;
 
   const _init = function () {
-    context.drawImage($videoElem, 0, 0, $canvas.width(), $canvas.height());
+    context.drawImage($videoElem, 0, 0, $canvas.width(), $canvas.height()); //canvas에 비디오 그리기
     videoDuration = $videoElem.duration;
 
-    const _play = function () {
+    const _play = function () { //캔버스에 그린 비디오를 스크롤 퍼센트에 따라 장면 변하게 하는 이벤트
         const scrollTop = window.pageYOffset - $section.offset().top;
         const moveArea = $section.height() - $videoWrapHeight;
         let percent = Math.max(0, Math.min(1, scrollTop / moveArea));
@@ -182,24 +202,48 @@ const videoCanvas = function () {
 
   }
 
-  
-
   $videoElem.addEventListener('canplaythrough', _init);
- 
-
 }
 
 
 
+// 영역 도달 시 비디오 재생 후 이미지 전환
+function autoPlay(){
+    
+    const $section = $(".auto-video-con");
+    const $video = $(".auto-video-con video");
+    const video = document.querySelector('.auto-video-con video');
 
+    const play = function () { 
+        const $videoWrapTop = $('.auto-video-con .video-wrap').offset().top;
+        const windowTop = window.pageYOffset;
+        if(windowTop > $videoWrapTop){
+            console.log('재생');
+            $video.get(0).play();
+        }else{
+            console.log('멈춤');
+            //$video.get(0).pause();
+        }
+
+        video.addEventListener('ended', function() { // 영상 끝났을 때
+            $('.auto-video-con .video-wrap').addClass('ended')
+        });
+    }
+
+    window.addEventListener('scroll', play);
+
+
+
+}
 
 
 window.addEventListener('load', function () {
+    clickVideo();
     videoScroll();
-    playVideo();
     videoCanvas();
-    
+    autoPlay();
 });
+
 
 </script>
 </body>
