@@ -202,7 +202,7 @@ const videoCanvas = function () {
 
   }
 
-  $videoElem.addEventListener('canplaythrough', _init);
+  $videoElem.addEventListener('canplaythrough', _init); //비디오를 중단없이 재생 가능할 때
 }
 
 
@@ -217,11 +217,11 @@ function autoPlay(){
     const play = function () { 
         const $videoWrapTop = $('.auto-video-con .video-wrap').offset().top;
         const windowTop = window.pageYOffset;
-        if(windowTop > $videoWrapTop){
-            console.log('재생');
+        if(windowTop > $videoWrapTop){ // 현재 스크롤 위치가 영역보다 아래 있을 때
+            //console.log('재생');
             $video.get(0).play();
         }else{
-            console.log('멈춤');
+            //console.log('멈춤');
             //$video.get(0).pause();
         }
 
