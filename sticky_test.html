@@ -15,8 +15,17 @@ html, body, div, video, h3{
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-.sticky-con{position:relative; height:3000px}
+.wrap{margin:100px 0 800px}
+.sticky-con{position:relative; height:3000px;}
 .sticky-con .sticky-inner{position:sticky; top:0}
+.video-con-wrap{overflow:hidden}
+.video-sticky-con video{position:relative; width:auto; height:100%; left:50%; transform:translateX(-50%);}
+.pen-con .sticky-con{height:1000px}
+.pen-wrap{max-width:900px; margin:-550px auto 0; position:relative; display:flex; justify-content: end;} 
+.pen-wrap .pen-img{position:absolute; top:-100px; left:340px;}
+.pen-wrap .pen-txt{width:50%; color:#000}
+.pen-wrap .pen-txt h3{font-size:50px; line-height:1.11}
+.pen-wrap .pen-txt p{font-size:18px; line-height:1.4; margin-top:38px}
 </style>
 <body>
     <div class="wrap">
@@ -24,17 +33,33 @@ html, body, div, video, h3{
             <article class="phone-con">
                 <div class="sticky-con">
                     <div class="sticky-inner">
-                        <div class="video-con">
-                            <video muted>
-                                <source src="/images/galaxy-s22-ultra_highlights_design-video.mp4" type="video/mp4">
-                            </video>
+                        <div class="video-con-wrap">
+                            <div class="video-con">
+                                <video muted>
+                                    <source src="/images/galaxy-s22-ultra_highlights_design-video.mp4" type="video/mp4">
+                                </video>
+                            </div> 
                         </div>
                     </div>
                 </div>
             </article>
             <article class="pen-con">
-
-            </article>
+                <div class="sticky-con">
+                    <div class="sticky-inner">
+                        <div class="pen-wrap">
+                            <div class="pen-img">
+                                <figure>
+                                    <img src="./images/galaxy-s22-ultra_highlights_design_spen.jpg">
+                                </figure>
+                            </div>    
+                            <div class="pen-txt">
+                                <h3>The first <br>Galaxy S with <br>built-in S Pen</h3>
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi iure in esse asperiores accusamus, expedita neque quis labore enim pariatur dolor vero facere dolorum tempore, placeat molestiae minus ut quod?</p>
+                            </div>
+                        </div>                   
+                    </div>
+                </div>
+            </article> 
         </section>
     </div>
 
@@ -43,6 +68,87 @@ html, body, div, video, h3{
 
 // 폰 비디오 스크롤로 제어, pen이 등장할 쯤 opacity 0으로 사라지게
 // pen은 아래서 위로 opacity,transform 조절되면서 등장
+// translateY(뷰포트높이) -> 0 
+
+
+// video태그 스크롤제어
+const videoScroll = function () {   
+    const videoCon = document.querySelector(".video-con");
+    videoCon.style.height = `${window.innerHeight}px`
+    const $section = $('.video-sticky-con .phone-con');
+    const videoElem = document.querySelector('.video-sticky-con video');
+
+  let videoDuration;
+
+  const init = function () {   
+    videoDuration = videoElem.duration;
+    const $videoHeight = $(".video-con-wrap").height();
+
+    const play = function () {
+        const scrollTop = window.pageYOffset - $section.offset().top; //현재스크롤값 - 비디오영역 위치한 높이값 :: 비디오영역 안에서 스크롤 된 값
+        const moveArea = $section.height() - $videoHeight; // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
+        //const moveArea = $section.height(); // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
+        let percent = Math.max(0, Math.min(1, scrollTop / moveArea)); // 이벤트가 진행될 구간에서 스크롤이 진행된 비율
+        let sequence = videoDuration * percent; // 비디오 전체 길이 * 스크롤 진행된 비율
+        videoElem.currentTime = sequence; //비디오 현재 시간 지정
+
+        //console.log(percent)
+    }
+    window.addEventListener('scroll', play);
+  }
+
+  videoElem.addEventListener('loadeddata', init);
+  
+}
+
+
+function penScroll(){
+    const pen = document.querySelector(".pen-img");
+    const stickyInner = document.querySelector('.phone-con');
+    const scrollHeight = stickyInner.scrollHeight; // box 높이
+    const partScrollStart = 0.4 * scrollHeight; //box 안에서 이벤트가 실행될 시점 비율
+    const partScrollEnd = 0.6 * scrollHeight; //box 안에서 이벤트가 종료될 시점 비율
+    const partScrollHeight = partScrollEnd - partScrollStart; //이벤트가 진행될 시점 비율
+    const currentYOffset = window.pageYOffset; //현재 스크롤 위치
+    const $boxTop = $('.phone-con').offset().top;
+
+
+    const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
+
+    let opacityValue = 0; //초기값 지정
+    let opacityValueTxt = 0; //초기값 지정
+    let viewHeight = window.innerHeight;
+    if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
+        opacityValue = scrollRatio * ( 1 - 0 ) + 0;
+        transformValue = scrollRatio * ( 0 - viewHeight ) + viewHeight;
+    }else if(currentYOffset - $boxTop < partScrollStart){ //시작점보다 위에 있을 경우 초기값으로 설정
+        opacityValue = 0;
+        transformValue = viewHeight;
+    }else if(currentYOffset - $boxTop > partScrollEnd){ //종료시점보다 아래 있을 경우 끝나는값으로 설정
+        opacityValue = 1;
+        transformValue = 0;
+    }
+            
+
+    //pen.style.opacity = opacityValue; 
+    pen.style.transform = `translateY(${transformValue}px)`;
+
+}
+
+
+
+
+
+
+
+window.addEventListener("load", function(){
+    videoScroll();
+    penScroll();
+})
+
+window.addEventListener("scroll", function(){
+    penScroll();
+})
 
 </script>
 </body>
