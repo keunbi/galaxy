@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+html, body, div, video, h3{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.wrap{margin:300px 0 1000px}
+.wrap-inner{position:relative; width:100%; text-align:center}
+
+.play-video-con{position:relative; width:1200px; margin:0 auto 200px}
+.play-video-con button{position:absolute; right:30px; bottom:30px; background:transparent; border:1px solid #fff; width:80px; height:30px; box-sizing:border-box; z-index:9; color:#fff; cursor:pointer}
+
+.sticky-con{position:relative; height:2000px; background:#eee}
+.video-sticky-inner{position: sticky; top:0;}
+.video-wrap{max-width:1200px; margin:0 auto; text-align:left;}
+.video-wrap .title{padding:50px 0 30px}
+.canvas-video-con{margin-top:200px;}
+
+.auto-video-con{margin-top:200px;}
+.auto-video-con .video-img-con{position:relative}
+.auto-video-con .video-wrap.ended{}
+.auto-video-con .img-box{position: absolute; top:0; left:0; width:100%; height:100%; background:#eee; opacity:0; display:flex; justify-content: center; align-items: center;}
+.auto-video-con .video-wrap.ended .img-box{opacity:1}
+
+.canvas-img-con{margin-top:200px}
+.canvas-img-con .video-con{width:580px; margin:0 auto}
+.canvas-img-con .sticky-con{background:#fff; border:2px solid #ddd; box-sizing:border-box}
+</style>
+<body>
+    <div class="wrap">
+        <div class="wrap-inner">
+
+            <!-- play버튼으로 비디오재생 -->
+            <div class="play-video-con">
+                <video class="video" src="/images/galaxy-z-fold4_highlights_nightography.mp4" muted></video>
+                <button type="button" class="video-btn">PLAY</button>
+            </div>
+
+
+            <!-- 비디오태그 스크롤 제어 -->
+            <div class="video-sticky-con">
+                <div class="sticky-con">
+                    <div class="video-sticky-inner">
+                        <div class="video-wrap">
+                            <h3 class="title">video 스크롤제어</h3>
+                            <video class="sample-video" muted>
+                                <source src="/images/galaxy-z-fold4_highlights_nightography.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 캔버스 비디오 스크롤 제어 -->
+            <div class="canvas-video-con">
+                <div class="sticky-con">
+                    <div class="video-sticky-inner">
+                        <div class="video-wrap">
+                            <h3 class="title">canvas video 스크롤제어</h3>
+                            <div class="video-con">
+                                <canvas id="canVideo" width="1200" height="674" data-src="/images/galaxy-z-fold4_highlights_nightography.mp4"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 해당영역 도달 시 비디오 재생 후 이미지로 전환 -->
+            <div class="auto-video-con">
+                <div class="video-wrap">
+                    <h3 class="title">영역 도달 시 비디오 재생 후 이미지 전환</h3>
+                    <div class="video-img-con">
+                        <video class="video" muted>
+                            <source src="/images/galaxy-z-fold4_highlights_nightography.mp4" type="video/mp4">
+                        </video>
+                        <div class="img-box">이미지 전환</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 이미지 시퀀스 이용한 캔버스 -->
+            <div class="canvas-img-con">
+                <div class="sticky-con">
+                    <div class="video-sticky-inner">
+                        <div class="video-wrap">
+                            <h3 class="title">canvas image 스크롤제어</h3>
+                            <div class="video-con">
+                                <canvas id="canImg" width="580" height="800"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            
+            
+        </div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+// image video with canvas
+const imageCanvas = function () {
+  const $section = $('.m_content-canvas-images');
+  const $canvas = $('.m_content-canvas-images canvas');
+  const context = $canvas[0].getContext('2d');
+
+  const videoImages = [];
+  const videoImageCount = 146;
+
+  const _init = function () {
+    let imgElem;
+    let num;
+    for (let i = 0; i < videoImageCount; i++) {
+      imgElem = new Image();
+      num = String(i).padStart(3, "0");
+      imgElem.src = `./images/canvas_img/gear_360_canvas_${num}.jpg`
+      videoImages.push(imgElem);
+    }
+    imgElem.onload = function () { context.drawImage(videoImages[0], 0, 0); }
+  }
+
+  const _play = function () {
+    if ( !$section.hasClass('active') ) return;
+
+    const scrollTop = scrollY - $section.offset().top;
+    const moveArea = $section.height() - $(window).height();
+    
+    let percent = scrollTop / moveArea;
+    let sequence = Math.round( videoImageCount * percent);
+    if ( sequence < 0 ) sequence = 0; 
+    if ( sequence >= videoImageCount ) sequence = videoImageCount - 1;
+    
+    context.drawImage(videoImages[sequence], 0, 0);
+  }
+
+  _init();
+  window.addEventListener('scroll', _play);
+
+  return {
+    init: _init,
+    play: _play,
+  }
+}
+
+
+
+
+
+window.addEventListener('load', function () {
+    clickVideo();
+    videoScroll();
+    videoCanvas();
+    autoPlay();
+    imageCanvas();
+});
+
+
+</script>
+</body>
+</html>
+
+
