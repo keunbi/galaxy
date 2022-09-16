@@ -104,6 +104,7 @@ const videoScroll = function () {
 
 function penScroll(){
     const pen = document.querySelector(".pen-img");
+    const phone = document.querySelector('.video-con-wrap');
     const stickyInner = document.querySelector('.phone-con');
     const scrollHeight = stickyInner.scrollHeight; // box 높이
     const partScrollStart = 0.4 * scrollHeight; //box 안에서 이벤트가 실행될 시점 비율
@@ -111,7 +112,6 @@ function penScroll(){
     const partScrollHeight = partScrollEnd - partScrollStart; //이벤트가 진행될 시점 비율
     const currentYOffset = window.pageYOffset; //현재 스크롤 위치
     const $boxTop = $('.phone-con').offset().top;
-
 
     const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
 
@@ -121,17 +121,21 @@ function penScroll(){
     if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
         opacityValue = scrollRatio * ( 1 - 0 ) + 0;
         transformValue = scrollRatio * ( 0 - viewHeight ) + viewHeight;
+        opacityValue2 = scrollRatio * ( 0 - 1 ) + 1;
     }else if(currentYOffset - $boxTop < partScrollStart){ //시작점보다 위에 있을 경우 초기값으로 설정
         opacityValue = 0;
         transformValue = viewHeight;
+        opacityValue2 = 1;
     }else if(currentYOffset - $boxTop > partScrollEnd){ //종료시점보다 아래 있을 경우 끝나는값으로 설정
         opacityValue = 1;
         transformValue = 0;
+        opacityValue2 = 0
     }
             
 
     //pen.style.opacity = opacityValue; 
     pen.style.transform = `translateY(${transformValue}px)`;
+    phone.style.opacity = opacityValue2; 
 
 }
 
