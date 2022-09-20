@@ -8,7 +8,7 @@
 </head>
 
 <style>
-html, body, div, video, h3{
+html, body, div, video, h3, figure{
   margin: 0;
   padding: 0;
   border: 0;
@@ -18,7 +18,7 @@ html, body, div, video, h3{
 ul{text-decoration: none; margin:0; padding:0}
 li{display:block}
 .wrap{margin:0 auto 800px; max-width:1920px;}
-.first-con{width:100%; height:1200px; background-color:#fff; z-index:9; position:relative}
+.first-con{width:100%; height:1200px; background-color:#fff; z-index:9; position:relative; z-index:9}
 
 /* 인트로 애니메이션 */
 .intro-con{position:relative; overflow: hidden; z-index:1}
@@ -52,72 +52,49 @@ li{display:block}
 .video-sticky-con.static .pen-wrap{margin-top:0}
 
 /* 플립 sticky 인터랙션 */
-.flip-default-img{background-color:#000; display:flex; align-items:center; justify-content: center; position:absolute; top:0; left:0; width:100%; position:fixed; z-index:9}
-.flip-default-img.hide{opacity:0}
-.flip-ani-con{position:relative}
-.flip-ani-con .flip-watch-img{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#000; display:flex; align-items:center; justify-content: center; height:100%; width:100%; overflow:hidden}
-.flip-ani-con .flip-watch-img img{width:1440px; height:982px}
-.flip-view-img{display:none}
-.flip-end-con{display:none}
+.flip-sticky-con{position:relative; z-index:1; max-width:1920px; margin:0 auto;}
+.flip-default-img{background-color:#000; display:flex; align-items:center; justify-content: center; position:absolute; top:0; left:0; right:0;  width:100%; position:fixed; z-index:9; max-width:1920px; margin:0 auto}
+.flip-default-img.hide{display:none}
+.flip-ani-con{position:relative; z-index:9}
+.flip-ani-con .flip-watch-con{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#000; display:flex; align-items:center; justify-content: center; height:100%; width:100%; overflow:hidden; }
+.flip-ani-con .flip-watch-con .flip-watch-img img{width:1440px; height:982px}
+.flip-ani-con .flip-watch-con.active{border-radius:95px; transition:border-radius .5s}
+.flip-ani-con .flip-watch-con .flip-view-img{position:absolute; right:100px; opacity:0}
+.flip-end-con{position:absolute; top:0; left:0; width:100%; height:100%; z-index:1}
+.flip-end-con .flip-center-img{position:absolute; top:50%; left:50%; margin:-400px 0 0 -195px; z-index:2}
+.flip-end-con .bk-box-img{position:absolute; top:50%; left:50%; margin:0 0 0 -810px}
 
-
+.flip-bt-txt{ width:980px; margin:-300px auto 0; height:500px; display:flex; color:#000}
+.flip-bt-txt .lf-con{width:300px}
+.flip-bt-txt .rt-con{width:600px; padding-left:100px; box-sizing:border-box}
+.flip-bt-txt h3{font-size:42px; line-height:1.2}
+.flip-bt-txt p{font-size:18px; line-height:1.5}
 </style>
 <body>
     <div class="wrap">
         <section class="first-con"></section>
 
-        <!--<section class="intro-con">
-            <article class="intro-list">
-                <ul>
-                    <li>
-                        <span class="txt-01">intro text1</span>
-                        <span class="txt-02">intro text1</span>
-                    </li>
-                    <li>
-                        <span class="txt-01">intro text2</span>
-                        <span class="txt-02">intro text2</span>
-                    </li>
-                    <li>
-                        <span class="txt-01">intro text3</span>
-                        <span class="txt-02">intro text3</span>
-                    </li>
-                    <li>
-                        <span class="txt-01">intro text4</span>
-                        <span class="txt-02">intro text4</span>
-                    </li>
-                    <li>
-                        <span class="txt-01">intro text5</span>
-                        <span class="txt-02">intro text5</span>
-                    </li>
-                </ul>
-            </article>
-            <div class="intro-bg">
-                <div class="bg">
-                    <div class="dim"></div>
-                </div>
-            </div>
-        </section> -->
-
-
         <section class="flip-sticky-con">
+            <div class="flip-default-img">
+                <figure>
+                    <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_step0.jpg">
+                </figure>
+            </div>
             <div class="sticky-con">
                 <div class="sticky-inner">
                     <div class="flip-inner-con">
-                        <div class="flip-default-img">
-                            <figure>
-                                <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_step0.jpg">
-                            </figure>
-                        </div>
                         <div class="flip-ani-con">
-                            <div class="flip-watch-img">
-                                <figure>
-                                    <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_step1.jpg">
-                                </figure>
-                            </div>
-                            <div class="flip-view-img">
-                                <figure>
-                                    <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_step2.png">
-                                </figure>
+                            <div class="flip-watch-con">
+                                <div class="flip-watch-img">
+                                    <figure>
+                                        <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_step1.jpg">
+                                    </figure>
+                                </div>
+                                <div class="flip-view-img">
+                                    <figure>
+                                        <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_step2.png">
+                                    </figure>
+                                </div>
                             </div>
                         </div>
                         <div class="flip-end-con">
@@ -133,6 +110,14 @@ li{display:block}
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="flip-bt-txt">
+                <div class="lf-con">
+                    <h3>Big things happen, even on the small screen</h3>
+                </div>
+                <div class="rt-con">
+                    <p>Check messages, take photos, play music and so much more, all without opening your phone.4 The 1.9-inch Cover Screen displays notifications and lets you intuitively interact with them.5 Pick your favorite display options for easy access, then make it your own with different styles and colors.</p>
                 </div>
             </div>
         </section>
@@ -182,127 +167,32 @@ li{display:block}
 
 
 
-// 배경이미지 scale(1.2) -> scale(1)
-// dim opacity 0.8 -> 0
-const introCon = function () {   
-    const $section = $('.intro-con');
-    const $bg = $('.intro-bg');
-    $section.css('height',`${window.innerHeight * 1.6}px`)
-    $bg.css('height',`${window.innerHeight}px`);
-}
-
-const introAni = function () { 
-    const $scrollHeight = $('.intro-con').height(); // box 높이
-    const partScrollStart = 0.4 * $scrollHeight; //box 안에서 이벤트가 실행될 시점 비율
-    const partScrollEnd = 0.6 * $scrollHeight; //box 안에서 이벤트가 종료될 시점 비율
-    const partScrollHeight = partScrollEnd - partScrollStart; //이벤트가 진행될 시점 비율
-    const currentYOffset = window.pageYOffset; //현재 스크롤 위치
-    const $boxTop = $('.intro-con').offset().top;
-    const $bgTop = $scrollHeight - $('.intro-bg').height();
-
-
-    const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
-
-    const aniInfo = [
-        {
-            objs:{
-                listCon : document.querySelector('.intro-list'),
-                bgCon : document.querySelector('.intro-bg .bg'),
-                dimCon : document.querySelector('.intro-bg .dim')
-            },
-            values:{
-                listCon_translateY : [0, -100, {start : 0, end : 0.3}],
-                bgCon_scale : [1.2, 1.0, {start : 0, end : 0.3}],
-                dimCon_opacity : [0.7, 0, {start : 0, end : 0.4}]
-            }
-        } 
-    ]
-    const values = aniInfo[0].values; 
-    const objs = aniInfo[0].objs; 
-
-
-    function calcValues(values){ 
-        //values : 값 변화의 시작값,끝값 배열
-        let rv;
-        
-        //지정한시작점비율 * 현재씬 전체 높이
-        const partScrollStart = values[2].start * $scrollHeight; 
-        const partScrollEnd = values[2].end * $scrollHeight;
-        const partScrollHeight = partScrollEnd - partScrollStart;
-        const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
-
-        if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
-            rv = (currentYOffset - $boxTop - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
-        }else if(currentYOffset - $boxTop < partScrollStart){
-            rv = values[0]; //시작점 전에 있을때 초기값으로 고정
-        }else if(currentYOffset - $boxTop > partScrollEnd){
-            rv = values[1]; //스크롤값이 범위를 벗어나면 최종값으로 고정
-        }
-        
-        return rv; 
-    }
-
-    objs.listCon.style.transform = `translateY(${calcValues(values.listCon_translateY)}px)`;
-    objs.bgCon.style.transform = `scale(${calcValues(values.bgCon_scale)})`;
-    objs.dimCon.style.opacity = calcValues(values.dimCon_opacity);
-
-
-
-    if(currentYOffset + window.innerHeight >= $boxTop + $scrollHeight){
-        $('.intro-bg').addClass('end')
-        $('.intro-bg').css('top', `${$bgTop}px`)
-    }else{
-        $('.intro-bg').removeClass('end')
-        $('.intro-bg').css('top', 0)
-    }
-
-
-
-
-
-}
-
-
-
 // 플립 sticky 애니메이션
 // 영역에서 스크롤 시작하면 기본이미지 숨기고 스티키 애니메이션 시작
 
 const flipScroll = function () {   
     const flipDefault = document.querySelector('.flip-default-img');
     const flipSticky = document.querySelector('.flip-ani-con');
-    flipDefault.style.height = `${window.innerHeight}px`
-    flipSticky.style.height = `${window.innerHeight}px`
-    const stickyInner = document.querySelector('.flip-ani-con');
 
+    
+
+    const init = function(){    
+        flipDefault.style.height = `${window.innerHeight}px`
+        flipSticky.style.height = `${window.innerHeight}px`
+        const btTxtCon = document.querySelector('.flip-bt-txt');
+        const marginTop = -(window.innerHeight) * 0.25;
+        btTxtCon.style.marginTop = `${marginTop}px`
+    }
     const play = function(){    
 
-        //해당영역에서 스크롤 시작하면 fixed된 기본이미지 사라지게
-        if(scrollY > $('.flip-sticky-con').offset().top + 20){
-            $('.flip-default-img').addClass('hide')
-        }else{
-            $('.flip-default-img').removeClass('hide')
-        }
-
         //sticky 애니메이션
+        const stickyInner = document.querySelector('.flip-sticky-con');
         const scrollHeight = stickyInner.scrollHeight; // box 높이
         const currentYOffset = window.pageYOffset; //현재 스크롤 위치
-        const $boxTop = $('.flip-sticky-con .sticky-inner').offset().top;
+        const $boxTop = $('.flip-sticky-con').offset().top;
         const viewHeight = window.innerHeight;
         const viewWidth = window.innerWidth;
 
-        const aniInfo = [
-            {
-                objs:{
-                    bkBox : document.querySelector('.flip-watch-img'),
-                },
-                values:{
-                    bkBox_width : [viewWidth, 1000, {start : 0.1, end : 0.3}],
-                    bkBox_height : [viewHeight, 800, {start : 0.1, end : 0.3}],
-                }
-            } 
-        ]
-        const values = aniInfo[0].values; //값에 해당하는 것들
-        const objs = aniInfo[0].objs; //DOM 객체들
 
         function calcValues(values){ 
             let rv;
@@ -311,7 +201,7 @@ const flipScroll = function () {
             const partScrollStart = values[2].start * scrollHeight; 
             const partScrollEnd = values[2].end * scrollHeight;
             const partScrollHeight = partScrollEnd - partScrollStart;
-            const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
+            const scrollRatio = Math.max(0, ((window.pageYOffset ) - partScrollStart) / partScrollHeight);
             
             
             if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
@@ -325,16 +215,86 @@ const flipScroll = function () {
             return rv; 
         }
 
-        objs.bkBox.style.width = `${calcValues(values.bkBox_width)}px`;
-        objs.bkBox.style.height = `${calcValues(values.bkBox_height)}px`;
+
+        //플립 검은화면 애니메이션
+        const flipBoxScoll = function(){
+             aniInfo = [
+                {
+                    objs:{
+                        bkBox : document.querySelector('.flip-watch-con'),
+                        bkBoxImg : document.querySelector('.flip-watch-img'),
+                        bkBoxTxt : document.querySelector('.flip-view-img'),
+                        bkScaleBox : document.querySelector('.flip-ani-con'),
+                    },
+                    values:{
+                        boxStep1_width : [viewWidth, 1362, {start : 0.05, end : 0.15}],
+                        boxStep1_height : [viewHeight, 692, {start : 0.05, end : 0.15}],
+                        boxStep2_marginLeft : [0, -450, {start : 0.15, end : 0.25}],
+                        boxStep3_opacity : [0, 1, {start : 0.23, end : 0.4}],
+                        boxStep4_scale : [1, 0.182, {start : 0.35, end : 0.5}],
+                        boxStep4_translateX : [0, -200, {start : 0.35, end : 0.5}],
+                        boxStep4_translateY : [0, -142, {start : 0.35, end : 0.5}],
+                        boxStep5_opacity : [1, 0, {start : 0.5, end : 0.5}],
+                        bkBoxActive : [{start : 0.05, end : 0.06}],
+                    }
+                } 
+            ]
+            const values = aniInfo[0].values;
+            const objs = aniInfo[0].objs;
+
+
+            if(currentYOffset - $boxTop >= values.bkBoxActive[0].start * scrollHeight && currentYOffset - $boxTop <= values.bkBoxActive[0].end * scrollHeight){ 
+                $('.flip-default-img').addClass('hide'); //해당영역에서 스크롤 시작하면 fixed된 기본이미지 사라지게
+                $('.flip-watch-con').addClass('active'); //box border-radius 주기
+            }else if(currentYOffset - $boxTop < values.bkBoxActive[0].start){
+                $('.flip-default-img').removeClass('hide');
+                $('.flip-watch-con').removeClass('active');
+            }else if(currentYOffset - $boxTop > values.bkBoxActive[0].end){
+                $('.flip-default-img').addClass('hide');
+                $('.flip-watch-con').addClass('active');
+            }
+
+
+            objs.bkBox.style.width = `${calcValues(values.boxStep1_width)}px`;
+            objs.bkBox.style.height = `${calcValues(values.boxStep1_height)}px`;
+            objs.bkBoxImg.style.marginLeft = `${calcValues(values.boxStep2_marginLeft)}px`;
+            objs.bkBoxTxt.style.opacity = calcValues(values.boxStep3_opacity);
+            objs.bkScaleBox.style.transform = `scale(${calcValues(values.boxStep4_scale)}) translate(${calcValues(values.boxStep4_translateX)}px, ${calcValues(values.boxStep4_translateY)}px)`;
+            objs.bkScaleBox.style.opacity = calcValues(values.boxStep5_opacity);
+        }
 
 
 
+        const phoneScroll = function(){
+             aniInfo = [
+                {
+                    objs:{
+                        phone : document.querySelector('.flip-center-img'),
+                        phoneBg : document.querySelector('.bk-box-img'),
+                    },
+                    values:{
+                        phoneStep1_opacity : [0, 1, {start : 0.4, end : 0.45}],
+                        phoneStep2_opacity : [0, 1, {start : 0.43, end : 0.6}],
+                    }
+                } 
+            ]
+            const values = aniInfo[0].values;
+            const objs = aniInfo[0].objs;
 
+
+            objs.phone.style.opacity = calcValues(values.phoneStep1_opacity);
+            objs.phoneBg.style.opacity = calcValues(values.phoneStep2_opacity);
+        }
+
+
+        flipBoxScoll();
+        phoneScroll();
     }
 
 
-
+    init()
+    play();
+    window.addEventListener('resize', init);
     window.addEventListener('scroll', play);
 
 }
