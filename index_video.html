@@ -29,6 +29,7 @@ html, body, div, video, h3{
 
 .auto-video-con{margin-top:200px;}
 .auto-video-con .video-img-con{position:relative}
+.auto-video-con .video-wrap.ended{}
 .auto-video-con .img-box{position: absolute; top:0; left:0; width:100%; height:100%; background:#eee; opacity:0; display:flex; justify-content: center; align-items: center;}
 .auto-video-con .video-wrap.ended .img-box{opacity:1}
 
@@ -48,7 +49,7 @@ html, body, div, video, h3{
 
 
             <!-- 비디오태그 스크롤 제어 -->
-            <div class="video-sticky-con">
+            <!-- <div class="video-sticky-con">
                 <div class="sticky-con">
                     <div class="video-sticky-inner">
                         <div class="video-wrap">
@@ -59,7 +60,7 @@ html, body, div, video, h3{
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- 캔버스 비디오 스크롤 제어 -->
             <div class="canvas-video-con">
@@ -263,6 +264,7 @@ function imageCanvas(){
   }
 
   const _play = function () {   
+
         const scrollTop = window.pageYOffset - $section.offset().top; // 현재스크롤값 - 이벤트영역 위치한 높이값 :: 비디오영역 안에서 스크롤 된 값
         const moveArea = $section.height() - $videoWrapHeight; // 이벤트 진행 전체높이 - 고정된 박스높이 :: 이벤트가 진행될 구간 
         let percent = Math.max(0, Math.min(1, scrollTop / moveArea)); // 이벤트가 진행될 구간 안에서 스크롤이 진행된 비율
@@ -273,8 +275,11 @@ function imageCanvas(){
         }else if(sequence < 0){
             sequence = 0; 
         }
-    
+        
+
         context.drawImage(videoImages[sequence], 0, 0);
+
+
 
   }
   
@@ -290,7 +295,7 @@ imageCanvas();
 
 window.addEventListener('load', function () {
     clickVideo();
-    videoScroll();
+    //videoScroll();
     videoCanvas();
     autoPlay();
     

@@ -15,20 +15,129 @@ html, body, div, video, h3{
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-.wrap{margin:100px 0 800px}
+ul{text-decoration: none; margin:0; padding:0}
+li{display:block}
+.wrap{margin:0 auto 800px; max-width:1920px;}
+.first-con{width:100%; height:1200px; background-color:#fff; z-index:9; position:relative}
+
+/* 인트로 애니메이션 */
+.intro-con{position:relative; overflow: hidden; z-index:1}
+.intro-list{width:988px; position:absolute; left:0; right:0; margin:0 auto; top:300px; z-index:9}
+.intro-list li{border-bottom:1px solid #767676; position:relative}
+.intro-list li span{display:block; font-size:40px; padding:22px 0}
+.intro-list li span.txt-01{color:#767676; }
+.intro-list li span.txt-02{color:#fff; position:absolute; top:0; left:0; opacity:0}
+.intro-bg{position:fixed; top:0; left:0; width:100%; height:100%}
+.intro-bg.end{position:absolute;}
+.intro-bg .bg{background:url(./images/galaxy-s22-ultra_highlights_overview_img.jpg); width:100%; height:100%; background-size:cover; background-position: 50% 50%; background-repeat: no-repeat;}
+.intro-bg .dim{position:absolute; top:0; left:0; width:100%; height:100%; background-color: #000; opacity:0.8}
+
+
+/* 비디오 인터랙션 */
+.video-sticky-con{position:relative; z-index:9; background-color:#fff}
 .sticky-con{position:relative; height:3000px;}
 .sticky-con .sticky-inner{position:sticky; top:0}
 .video-con-wrap{overflow:hidden}
 .video-sticky-con video{position:relative; width:auto; height:100%; left:50%; transform:translateX(-50%);}
 .pen-con .sticky-con{height:1000px}
-.pen-wrap{max-width:900px; margin:-550px auto 0; position:relative; display:flex; justify-content: end;} 
+.pen-wrap{max-width:900px; margin:-580px auto 0; position:relative; display:flex; justify-content: end;} 
 .pen-wrap .pen-img{position:absolute; top:-100px; left:340px;}
 .pen-wrap .pen-txt{width:50%; color:#000}
 .pen-wrap .pen-txt h3{font-size:50px; line-height:1.11}
 .pen-wrap .pen-txt p{font-size:18px; line-height:1.4; margin-top:38px}
+.static-phone-img{display:none}
+.video-sticky-con.static .sticky-con{height:auto}
+.video-sticky-con.static .static-phone-img{display:block}
+.video-sticky-con.static .video-con-wrap{display:none}
+.video-sticky-con.static .pen-wrap{margin-top:0}
+
+/* 플립 sticky 인터랙션 */
+.flip-default-img{background-color:#000; display:flex; align-items:center; justify-content: center; position:absolute; top:0; left:0; width:100%; position:fixed; z-index:9}
+.flip-default-img.hide{opacity:0}
+.flip-ani-con{position:relative}
+.flip-ani-con .flip-watch-img{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#000; display:flex; align-items:center; justify-content: center; height:100%; width:100%; overflow:hidden}
+.flip-ani-con .flip-watch-img img{width:1440px; height:982px}
+.flip-view-img{display:none}
+.flip-end-con{display:none}
+
+
 </style>
 <body>
     <div class="wrap">
+        <section class="first-con"></section>
+
+        <!--<section class="intro-con">
+            <article class="intro-list">
+                <ul>
+                    <li>
+                        <span class="txt-01">intro text1</span>
+                        <span class="txt-02">intro text1</span>
+                    </li>
+                    <li>
+                        <span class="txt-01">intro text2</span>
+                        <span class="txt-02">intro text2</span>
+                    </li>
+                    <li>
+                        <span class="txt-01">intro text3</span>
+                        <span class="txt-02">intro text3</span>
+                    </li>
+                    <li>
+                        <span class="txt-01">intro text4</span>
+                        <span class="txt-02">intro text4</span>
+                    </li>
+                    <li>
+                        <span class="txt-01">intro text5</span>
+                        <span class="txt-02">intro text5</span>
+                    </li>
+                </ul>
+            </article>
+            <div class="intro-bg">
+                <div class="bg">
+                    <div class="dim"></div>
+                </div>
+            </div>
+        </section> -->
+
+
+        <section class="flip-sticky-con">
+            <div class="sticky-con">
+                <div class="sticky-inner">
+                    <div class="flip-inner-con">
+                        <div class="flip-default-img">
+                            <figure>
+                                <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_step0.jpg">
+                            </figure>
+                        </div>
+                        <div class="flip-ani-con">
+                            <div class="flip-watch-img">
+                                <figure>
+                                    <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_step1.jpg">
+                                </figure>
+                            </div>
+                            <div class="flip-view-img">
+                                <figure>
+                                    <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_step2.png">
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="flip-end-con">
+                            <div class="flip-center-img">
+                                <figure>
+                                    <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_device_end.png">
+                                </figure>
+                            </div>
+                            <div class="bk-box-img">
+                                <figure>
+                                    <img src="./images/galaxy-z-flip3-5g_highlights_coverscreen_list.jpg">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 비디오 스크롤 컨텐츠 -->
         <section class="video-sticky-con">
             <article class="phone-con">
                 <div class="sticky-con">
@@ -36,9 +145,14 @@ html, body, div, video, h3{
                         <div class="video-con-wrap">
                             <div class="video-con">
                                 <video muted>
-                                    <source src="/images/galaxy-s22-ultra_highlights_design-video.mp4" type="video/mp4">
+                                    <source src="./images/galaxy-s22-ultra_highlights_design-video.mp4" type="video/mp4">
                                 </video>
                             </div> 
+                        </div>
+                        <div class="static-phone-img">
+                            <figure>
+                                <img src="./images/galaxy-s22-ultra_highlights_design_img_042.jpg">
+                            </figure>
                         </div>
                     </div>
                 </div>
@@ -66,76 +180,162 @@ html, body, div, video, h3{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 
-// 폰 비디오 스크롤로 제어, pen이 등장할 쯤 opacity 0으로 사라지게
-// pen은 아래서 위로 opacity,transform 조절되면서 등장
-// translateY(뷰포트높이) -> 0 
 
 
-// video태그 스크롤제어
-const videoScroll = function () {   
-    const videoCon = document.querySelector(".video-con");
-    videoCon.style.height = `${window.innerHeight}px`
-    const $section = $('.video-sticky-con .phone-con');
-    const videoElem = document.querySelector('.video-sticky-con video');
-
-  let videoDuration;
-
-  const init = function () {   
-    videoDuration = videoElem.duration;
-    const $videoHeight = $(".video-con-wrap").height();
-
-    const play = function () {
-        const scrollTop = window.pageYOffset - $section.offset().top; //현재스크롤값 - 비디오영역 위치한 높이값 :: 비디오영역 안에서 스크롤 된 값
-        const moveArea = $section.height() - $videoHeight; // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
-        //const moveArea = $section.height(); // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
-        let percent = Math.max(0, Math.min(1, scrollTop / moveArea)); // 이벤트가 진행될 구간에서 스크롤이 진행된 비율
-        let sequence = videoDuration * percent; // 비디오 전체 길이 * 스크롤 진행된 비율
-        videoElem.currentTime = sequence; //비디오 현재 시간 지정
-
-        //console.log(percent)
-    }
-    window.addEventListener('scroll', play);
-  }
-
-  videoElem.addEventListener('loadeddata', init);
-  
+// 배경이미지 scale(1.2) -> scale(1)
+// dim opacity 0.8 -> 0
+const introCon = function () {   
+    const $section = $('.intro-con');
+    const $bg = $('.intro-bg');
+    $section.css('height',`${window.innerHeight * 1.6}px`)
+    $bg.css('height',`${window.innerHeight}px`);
 }
 
-
-function penScroll(){
-    const pen = document.querySelector(".pen-img");
-    const phone = document.querySelector('.video-con-wrap');
-    const stickyInner = document.querySelector('.phone-con');
-    const scrollHeight = stickyInner.scrollHeight; // box 높이
-    const partScrollStart = 0.4 * scrollHeight; //box 안에서 이벤트가 실행될 시점 비율
-    const partScrollEnd = 0.6 * scrollHeight; //box 안에서 이벤트가 종료될 시점 비율
+const introAni = function () { 
+    const $scrollHeight = $('.intro-con').height(); // box 높이
+    const partScrollStart = 0.4 * $scrollHeight; //box 안에서 이벤트가 실행될 시점 비율
+    const partScrollEnd = 0.6 * $scrollHeight; //box 안에서 이벤트가 종료될 시점 비율
     const partScrollHeight = partScrollEnd - partScrollStart; //이벤트가 진행될 시점 비율
     const currentYOffset = window.pageYOffset; //현재 스크롤 위치
-    const $boxTop = $('.phone-con').offset().top;
+    const $boxTop = $('.intro-con').offset().top;
+    const $bgTop = $scrollHeight - $('.intro-bg').height();
+
 
     const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
 
-    let opacityValue = 0; //초기값 지정
-    let opacityValueTxt = 0; //초기값 지정
-    let viewHeight = window.innerHeight;
-    if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
-        opacityValue = scrollRatio * ( 1 - 0 ) + 0;
-        transformValue = scrollRatio * ( 0 - viewHeight ) + viewHeight;
-        opacityValue2 = scrollRatio * ( 0 - 1 ) + 1;
-    }else if(currentYOffset - $boxTop < partScrollStart){ //시작점보다 위에 있을 경우 초기값으로 설정
-        opacityValue = 0;
-        transformValue = viewHeight;
-        opacityValue2 = 1;
-    }else if(currentYOffset - $boxTop > partScrollEnd){ //종료시점보다 아래 있을 경우 끝나는값으로 설정
-        opacityValue = 1;
-        transformValue = 0;
-        opacityValue2 = 0
-    }
-            
+    const aniInfo = [
+        {
+            objs:{
+                listCon : document.querySelector('.intro-list'),
+                bgCon : document.querySelector('.intro-bg .bg'),
+                dimCon : document.querySelector('.intro-bg .dim')
+            },
+            values:{
+                listCon_translateY : [0, -100, {start : 0, end : 0.3}],
+                bgCon_scale : [1.2, 1.0, {start : 0, end : 0.3}],
+                dimCon_opacity : [0.7, 0, {start : 0, end : 0.4}]
+            }
+        } 
+    ]
+    const values = aniInfo[0].values; 
+    const objs = aniInfo[0].objs; 
 
-    //pen.style.opacity = opacityValue; 
-    pen.style.transform = `translateY(${transformValue}px)`;
-    phone.style.opacity = opacityValue2; 
+
+    function calcValues(values){ 
+        //values : 값 변화의 시작값,끝값 배열
+        let rv;
+        
+        //지정한시작점비율 * 현재씬 전체 높이
+        const partScrollStart = values[2].start * $scrollHeight; 
+        const partScrollEnd = values[2].end * $scrollHeight;
+        const partScrollHeight = partScrollEnd - partScrollStart;
+        const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
+
+        if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
+            rv = (currentYOffset - $boxTop - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
+        }else if(currentYOffset - $boxTop < partScrollStart){
+            rv = values[0]; //시작점 전에 있을때 초기값으로 고정
+        }else if(currentYOffset - $boxTop > partScrollEnd){
+            rv = values[1]; //스크롤값이 범위를 벗어나면 최종값으로 고정
+        }
+        
+        return rv; 
+    }
+
+    objs.listCon.style.transform = `translateY(${calcValues(values.listCon_translateY)}px)`;
+    objs.bgCon.style.transform = `scale(${calcValues(values.bgCon_scale)})`;
+    objs.dimCon.style.opacity = calcValues(values.dimCon_opacity);
+
+
+
+    if(currentYOffset + window.innerHeight >= $boxTop + $scrollHeight){
+        $('.intro-bg').addClass('end')
+        $('.intro-bg').css('top', `${$bgTop}px`)
+    }else{
+        $('.intro-bg').removeClass('end')
+        $('.intro-bg').css('top', 0)
+    }
+
+
+
+
+
+}
+
+
+
+// 플립 sticky 애니메이션
+// 영역에서 스크롤 시작하면 기본이미지 숨기고 스티키 애니메이션 시작
+
+const flipScroll = function () {   
+    const flipDefault = document.querySelector('.flip-default-img');
+    const flipSticky = document.querySelector('.flip-ani-con');
+    flipDefault.style.height = `${window.innerHeight}px`
+    flipSticky.style.height = `${window.innerHeight}px`
+    const stickyInner = document.querySelector('.flip-ani-con');
+
+    const play = function(){    
+
+        //해당영역에서 스크롤 시작하면 fixed된 기본이미지 사라지게
+        if(scrollY > $('.flip-sticky-con').offset().top + 20){
+            $('.flip-default-img').addClass('hide')
+        }else{
+            $('.flip-default-img').removeClass('hide')
+        }
+
+        //sticky 애니메이션
+        const scrollHeight = stickyInner.scrollHeight; // box 높이
+        const currentYOffset = window.pageYOffset; //현재 스크롤 위치
+        const $boxTop = $('.flip-sticky-con .sticky-inner').offset().top;
+        const viewHeight = window.innerHeight;
+        const viewWidth = window.innerWidth;
+
+        const aniInfo = [
+            {
+                objs:{
+                    bkBox : document.querySelector('.flip-watch-img'),
+                },
+                values:{
+                    bkBox_width : [viewWidth, 1000, {start : 0.1, end : 0.3}],
+                    bkBox_height : [viewHeight, 800, {start : 0.1, end : 0.3}],
+                }
+            } 
+        ]
+        const values = aniInfo[0].values; //값에 해당하는 것들
+        const objs = aniInfo[0].objs; //DOM 객체들
+
+        function calcValues(values){ 
+            let rv;
+            
+            //지정한시작점비율 * 현재씬 전체 높이
+            const partScrollStart = values[2].start * scrollHeight; 
+            const partScrollEnd = values[2].end * scrollHeight;
+            const partScrollHeight = partScrollEnd - partScrollStart;
+            const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
+            
+            
+            if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
+                rv = (currentYOffset - $boxTop - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
+            }else if(currentYOffset - $boxTop < partScrollStart){
+                rv = values[0]; // 범위 전에 있을때 초기값으로 고정
+            }else if(currentYOffset - $boxTop > partScrollEnd){
+                rv = values[1]; //스크롤값이 범위를 벗어나면 최종값으로 고정
+            }
+
+            return rv; 
+        }
+
+        objs.bkBox.style.width = `${calcValues(values.bkBox_width)}px`;
+        objs.bkBox.style.height = `${calcValues(values.bkBox_height)}px`;
+
+
+
+
+    }
+
+
+
+    window.addEventListener('scroll', play);
 
 }
 
@@ -143,15 +343,123 @@ function penScroll(){
 
 
 
+// 폰 비디오 스크롤로 제어, 펜이 등장할 쯤 opacity 0으로 사라지게
+// 펜은 아래서 위로 transform 조절되면서 등장
+// translateY(뷰포트높이) -> 0
+
+// video태그 스크롤제어
+const videoScroll = function () {   
+  const videoCon = document.querySelector(".video-con");
+  const $section = $('.video-sticky-con .phone-con');
+  const videoElem = document.querySelector('.video-sticky-con video');
+  let $videoHeight;
+  let videoDuration;
+  
+
+
+  const init = function () {   
+    videoCon.style.height = `${window.innerHeight}px`
+    $videoHeight = $(".video-con-wrap").height();
+    videoDuration = videoElem.duration;
+
+    if(window.innerHeight <= 800){
+        $('.video-sticky-con').addClass('static')
+    }else{
+        $('.video-sticky-con').removeClass('static')
+    }
+
+  }
+
+  const play = function () {
+    const scrollTop = window.pageYOffset - $section.offset().top; //현재스크롤값 - 비디오영역 위치한 높이값 :: 비디오영역 안에서 스크롤 된 값
+    const moveArea = $section.height() - $videoHeight; // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
+    let percent = Math.max(0, Math.min(1, scrollTop / moveArea)); // 이벤트가 진행될 구간에서 스크롤이 진행된 비율
+    let sequence = videoDuration * percent; // 비디오 전체 길이 * 스크롤 진행된 비율
+    videoElem.currentTime = sequence; //비디오 현재 시간 지정
+  }
+
+
+ init();
+ play();
+
+ window.addEventListener('resize', function(){
+    init();
+    play();
+})
+ window.addEventListener('scroll', play);
+
+}
+
+
+// video 인터랙션 스크롤 이벤트
+const penScroll = function () {  
+    const pen = document.querySelector(".pen-img");
+    const phone = document.querySelector('.video-con-wrap');
+    const stickyInner = document.querySelector('.phone-con');
+
+    const play = function () {   
+        const scrollHeight = stickyInner.scrollHeight; // box 높이
+        const currentYOffset = window.pageYOffset; //현재 스크롤 위치
+        const $boxTop = $('.phone-con').offset().top;
+        const viewHeight = window.innerHeight;
+
+        const aniInfo = [
+            {
+                objs:{
+                    penCon : document.querySelector('.pen-img'),
+                    phoneCon : document.querySelector('.video-con-wrap')
+                },
+                values:{
+                    penCon_transform : [viewHeight, 0, {start : 0.4, end : 0.6}],
+                    phoneCon_opacity : [1, 0, {start : 0.4, end : 0.6}],
+                }
+            } 
+        ]
+        const values = aniInfo[0].values; //값에 해당하는 것들
+        const objs = aniInfo[0].objs; //DOM 객체들
+
+
+        function calcValues(values){ 
+            let rv;
+            
+            //지정한시작점비율 * 현재씬 전체 높이
+            const partScrollStart = values[2].start * scrollHeight; 
+            const partScrollEnd = values[2].end * scrollHeight;
+            const partScrollHeight = partScrollEnd - partScrollStart;
+            const scrollRatio = Math.max(0, ((window.pageYOffset - $boxTop) - partScrollStart) / partScrollHeight);
+            
+            
+            if(window.innerHeight >= 800){
+                if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
+                    rv = (currentYOffset - $boxTop - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
+                }else if(currentYOffset - $boxTop < partScrollStart){
+                    rv = values[0]; // 범위 전에 있을때 초기값으로 고정
+                }else if(currentYOffset - $boxTop > partScrollEnd){
+                    rv = values[1]; //스크롤값이 범위를 벗어나면 최종값으로 고정
+                }
+            }else{
+                rv = values[1]; // 최종값으로 고정
+            }
+
+
+            return rv; 
+        }
+
+        objs.phoneCon.style.opacity = calcValues(values.phoneCon_opacity);
+        objs.penCon.style.transform = `translateY(${calcValues(values.penCon_transform)}px)`;
+    }
+
+    play();
+    window.addEventListener('scroll', play);
+    window.addEventListener('resize', play);
+    
+}
 
 
 window.addEventListener("load", function(){
     videoScroll();
     penScroll();
-})
-
-window.addEventListener("scroll", function(){
-    penScroll();
+    flipScroll();
 })
 
 </script>
