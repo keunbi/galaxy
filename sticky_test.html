@@ -161,7 +161,7 @@ li{display:block}
             </article> 
         </section>
     </div>
-
+    <!-- <div style="position: fixed; top:0; left: 0; width: 100%; height: 50vh; background-color: #ff000050; z-index: 99;"></div> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 
@@ -180,12 +180,11 @@ const flipScroll = function () {
         flipDefault.style.height = `${window.innerHeight}px`
         flipSticky.style.height = `${window.innerHeight}px`
         const btTxtCon = document.querySelector('.flip-bt-txt');
-        const marginTop = -(window.innerHeight) * 0.25;
+        const marginTop = -(window.innerHeight) / 2 + $('.bk-box-img').height() + 78;
         btTxtCon.style.marginTop = `${marginTop}px`
     }
     const play = function(){    
 
-        //sticky 애니메이션
         const stickyInner = document.querySelector('.flip-sticky-con');
         const scrollHeight = stickyInner.scrollHeight; // box 높이
         const currentYOffset = window.pageYOffset; //현재 스크롤 위치
@@ -194,6 +193,7 @@ const flipScroll = function () {
         const viewWidth = window.innerWidth;
 
 
+        //sticky 애니메이션
         function calcValues(values){ 
             let rv;
             
@@ -202,7 +202,6 @@ const flipScroll = function () {
             const partScrollEnd = values[2].end * scrollHeight;
             const partScrollHeight = partScrollEnd - partScrollStart;
             const scrollRatio = Math.max(0, ((window.pageYOffset ) - partScrollStart) / partScrollHeight);
-            
             
             if(currentYOffset - $boxTop >= partScrollStart && currentYOffset - $boxTop <= partScrollEnd){ //시작,종료 범위 안에 들어왔으면 이벤트 실행
                 rv = (currentYOffset - $boxTop - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
@@ -227,15 +226,15 @@ const flipScroll = function () {
                         bkScaleBox : document.querySelector('.flip-ani-con'),
                     },
                     values:{
-                        boxStep1_width : [viewWidth, 1362, {start : 0.05, end : 0.15}],
-                        boxStep1_height : [viewHeight, 692, {start : 0.05, end : 0.15}],
-                        boxStep2_marginLeft : [0, -450, {start : 0.15, end : 0.25}],
-                        boxStep3_opacity : [0, 1, {start : 0.23, end : 0.4}],
-                        boxStep4_scale : [1, 0.182, {start : 0.35, end : 0.5}],
-                        boxStep4_translateX : [0, -200, {start : 0.35, end : 0.5}],
-                        boxStep4_translateY : [0, -142, {start : 0.35, end : 0.5}],
-                        boxStep5_opacity : [1, 0, {start : 0.5, end : 0.5}],
-                        bkBoxActive : [{start : 0.05, end : 0.06}],
+                        boxStep1_active : [{start : 0.05, end : 0.06}],
+                        boxStep2_width : [viewWidth, 1362, {start : 0.05, end : 0.15}],
+                        boxStep2_height : [viewHeight, 692, {start : 0.05, end : 0.15}],
+                        boxStep3_marginLeft : [0, -450, {start : 0.15, end : 0.25}],
+                        boxStep4_opacity : [0, 1, {start : 0.23, end : 0.4}],
+                        boxStep5_scale : [1, 0.182, {start : 0.35, end : 0.5}],
+                        boxStep5_translateX : [0, -200, {start : 0.35, end : 0.5}],
+                        boxStep5_translateY : [0, -142, {start : 0.35, end : 0.5}],
+                        boxStep6_opacity : [1, 0, {start : 0.5, end : 0.5}],
                     }
                 } 
             ]
@@ -243,28 +242,29 @@ const flipScroll = function () {
             const objs = aniInfo[0].objs;
 
 
-            if(currentYOffset - $boxTop >= values.bkBoxActive[0].start * scrollHeight && currentYOffset - $boxTop <= values.bkBoxActive[0].end * scrollHeight){ 
+            if(currentYOffset - $boxTop >= values.boxStep1_active[0].start * scrollHeight && currentYOffset - $boxTop <= values.boxStep1_active[0].end * scrollHeight){ 
                 $('.flip-default-img').addClass('hide'); //해당영역에서 스크롤 시작하면 fixed된 기본이미지 사라지게
                 $('.flip-watch-con').addClass('active'); //box border-radius 주기
-            }else if(currentYOffset - $boxTop < values.bkBoxActive[0].start){
+            }else if(currentYOffset - $boxTop < values.boxStep1_active[0].start){
                 $('.flip-default-img').removeClass('hide');
                 $('.flip-watch-con').removeClass('active');
-            }else if(currentYOffset - $boxTop > values.bkBoxActive[0].end){
+            }else if(currentYOffset - $boxTop > values.boxStep1_active[0].end){
                 $('.flip-default-img').addClass('hide');
                 $('.flip-watch-con').addClass('active');
             }
 
 
-            objs.bkBox.style.width = `${calcValues(values.boxStep1_width)}px`;
-            objs.bkBox.style.height = `${calcValues(values.boxStep1_height)}px`;
-            objs.bkBoxImg.style.marginLeft = `${calcValues(values.boxStep2_marginLeft)}px`;
-            objs.bkBoxTxt.style.opacity = calcValues(values.boxStep3_opacity);
-            objs.bkScaleBox.style.transform = `scale(${calcValues(values.boxStep4_scale)}) translate(${calcValues(values.boxStep4_translateX)}px, ${calcValues(values.boxStep4_translateY)}px)`;
-            objs.bkScaleBox.style.opacity = calcValues(values.boxStep5_opacity);
+            objs.bkBox.style.width = `${calcValues(values.boxStep2_width)}px`;
+            objs.bkBox.style.height = `${calcValues(values.boxStep2_height)}px`;
+            objs.bkBoxImg.style.marginLeft = `${calcValues(values.boxStep3_marginLeft)}px`;
+            objs.bkBoxTxt.style.opacity = calcValues(values.boxStep4_opacity);
+            objs.bkScaleBox.style.transform = `scale(${calcValues(values.boxStep5_scale)}) translate(${calcValues(values.boxStep5_translateX)}px, ${calcValues(values.boxStep5_translateY)}px)`;
+            objs.bkScaleBox.style.opacity = calcValues(values.boxStep6_opacity);
         }
 
 
 
+        // 플립,배경 애니메이션
         const phoneScroll = function(){
              aniInfo = [
                 {
@@ -294,7 +294,10 @@ const flipScroll = function () {
 
     init()
     play();
-    window.addEventListener('resize', init);
+    window.addEventListener('resize', function(){
+        init()
+        play();
+    })
     window.addEventListener('scroll', play);
 
 }
@@ -316,39 +319,53 @@ const videoScroll = function () {
   let videoDuration;
   
 
-
   const init = function () {   
     videoCon.style.height = `${window.innerHeight}px`
     $videoHeight = $(".video-con-wrap").height();
-    videoDuration = videoElem.duration;
+    //videoDuration = videoElem.duration;
+
 
     if(window.innerHeight <= 800){
         $('.video-sticky-con').addClass('static')
     }else{
         $('.video-sticky-con').removeClass('static')
     }
-
-  }
-
-  const play = function () {
-    const scrollTop = window.pageYOffset - $section.offset().top; //현재스크롤값 - 비디오영역 위치한 높이값 :: 비디오영역 안에서 스크롤 된 값
-    const moveArea = $section.height() - $videoHeight; // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
-    let percent = Math.max(0, Math.min(1, scrollTop / moveArea)); // 이벤트가 진행될 구간에서 스크롤이 진행된 비율
-    let sequence = videoDuration * percent; // 비디오 전체 길이 * 스크롤 진행된 비율
-    videoElem.currentTime = sequence; //비디오 현재 시간 지정
   }
 
 
- init();
- play();
 
- window.addEventListener('resize', function(){
+  const play = function () {    
+    window.addEventListener('scroll', function(){
+        videoDuration = videoElem.duration;
+        const scrollTop = window.pageYOffset - $section.offset().top; //현재스크롤값 - 비디오영역 위치한 높이값 :: 비디오영역 안에서 스크롤 된 값
+        const moveArea = $section.height() - $videoHeight; // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
+        let percent = Math.max(0, Math.min(1, scrollTop / moveArea)); // 이벤트가 진행될 구간에서 스크롤이 진행된 비율
+        let sequence = videoDuration * percent; // 비디오 전체 길이 * 스크롤 진행된 비율
+        videoElem.currentTime = sequence; //비디오 현재 시간 지정
+    })
+  }
+
+
     init();
     play();
-})
- window.addEventListener('scroll', play);
+    console.log('load')
+
+    /*videoElem.addEventListener('loadedmetadata', function(){
+        init();
+        play();
+    })*/
+
+    window.addEventListener('resize', function(){
+        init();
+        play();
+        console.log('resize')
+    })
+
+
+
 
 }
+
 
 
 // video 인터랙션 스크롤 이벤트
@@ -421,6 +438,9 @@ window.addEventListener("load", function(){
     penScroll();
     flipScroll();
 })
+
+
+
 
 </script>
 </body>
