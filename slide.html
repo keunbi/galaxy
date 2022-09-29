@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>galaxy test</title>
+
+
+</head>
+
+<style>
+html, body, div, video, h3, figure{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+ul{text-decoration: none; margin:0; padding:0}
+li{display:block}
+.wrap{max-width:1920px; margin:200px auto; overflow:hidden}
+
+section{
+    --inner-size:980px;
+    --vw:100vw;
+}
+.f_container{width:var(--inner-size); margin:0 auto; overflow:visible; position:relative}
+
+.scroll-slide{--scroll-bar-width:0;--slide-item-width:340px;--slide-item-height:340px;--slide-item-margin:8px;--slide-scroll-padding:50px;--slide-btn-size:52px;--slide-btn-x:-30px;display:block;position:relative;width:calc((var(--vw) - var(--inner-size))/ 2 + var(--inner-size))}
+.slide-list{white-space: nowrap;}
+.slide-list li{display:inline-block; scroll-snap-align:start; width:340px; height:340px; margin-right:8px}
+.slide-list li .box{width:340px; height:340px; background:#eee}
+.scroll-slide_area{display:block; overflow-x:scroll; -ms-scroll-snap-type:x mandatory; scroll-snap-type:x mandatory; scroll-behavior:smooth;}
+.scroll-slide_area::-webkit-scrollbar{height:2px;background-color:#d8d8d8}
+.scroll-slide_area::-webkit-scrollbar-thumb{cursor:-webkit-grab;cursor:grab;height:100%;background-color:#000}
+.slide-btn{position: absolute; bottom: 100px; left:0}
+.slide-btn button.hide{visibility:hidden; opacity:0}
+</style>
+
+<body>
+    <div class="wrap">
+        <section class="m_content-slide ">
+            <div class="f_container">
+                <div class="scroll-slide bespoke-list">
+                    <div class="scroll-slide_area">
+                        <ul class="slide-list">
+                            <li class="slide-item"><div class="box"></div></li>
+                            <li class="slide-item"><div class="box"></div></li>
+                            <li class="slide-item"><div class="box"></div></li>
+                            <li class="slide-item"><div class="box"></div></li>
+                            <li class="slide-item"><div class="box"></div></li>
+                        </ul>
+                        <div class="slide-btn">
+                            <button type="button" class="btn-prev">prev</button>
+                            <button type="button" class="btn-next">next</button>
+                        </div>
+                        <div class="slide-bar">
+                            <div class="bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    const slideCon = function () {   
+        let scrollSlideBtnPrev = document.querySelector(".btn-prev");
+        let scrollSlideBtnNext = document.querySelector(".btn-next");
+        let checkRtl = document.querySelector('html').classList.contains('rtl');
+        let scrollSlideArea = document.querySelector(".scroll-slide_area");
+        let scrollSlideList = document.querySelector(".slide-list");
+        let scrollSlideItem = document.querySelectorAll(".slide-item");
+        let scrollSlideItemWidth = 0;
+        let scrollSlideListWidth = 0
+        let focusSetTime1;
+        let focusSetTime2;
+        let SlideFirst = false;
+        let SlideEnd = false;
+
+
+        const init = function () {   
+            _setSize();
+            _changeNavActive();
+        }
+
+        const _setSize = function () {   
+            scrollSlideListWidth = scrollSlideList.offsetWidth;
+            scrollSlideItemMargin = parseInt(getComputedStyle(scrollSlideItem[0]).getPropertyValue('margin-right'), 10); // li사이의 마진 (margin-right:8px)
+            scrollSlideItemWidth = +scrollSlideItem[0].offsetWidth + scrollSlideItemMargin; // li 너비 + 사이의 마진
+        };
+               
+        const _scroll = function () {   
+            _changeNavActive();
+        };
+
+
+        const _onClickNext = function () {   
+            scrollSlideArea.scrollLeft += scrollSlideItemWidth;
+
+            clearTimeout(focusSetTime1);
+            focusSetTime1 = setTimeout(function () {
+                if (SlideEnd) scrollSlideBtnPrev.focus();
+            }, 500);
+
+        };
+
+
+        const _onClickPrev = function () {   
+            var itemTotalWidth = scrollSlideItemWidth;
+
+            if (Math.floor(scrollSlideArea.scrollLeft) === scrollSlideListWidth - scrollSlideArea.offsetWidth) {
+                itemTotalWidth = scrollSlideItemWidth / 2;
+            }
+
+            scrollSlideArea.scrollLeft -= itemTotalWidth;
+
+            clearTimeout(focusSetTime2);
+            focusSetTime2 = setTimeout(function () {
+                if (SlideFirst) {
+                    scrollSlideBtnNext.focus();
+                }
+            }, 500);
+        };
+
+        const _changeNavActive = function () {  
+            var scrollLeftValue = Math.abs(scrollSlideArea.scrollLeft); // 움직인 절대값
+            var f_container
+
+            if (scrollLeftValue === 0) {
+                scrollSlideBtnPrev.classList.add("hide");
+                SlideFirst = true;
+            } else {
+                scrollSlideBtnPrev.classList.remove("hide");
+                SlideFirst = false;
+            }
+
+            if (scrollLeftValue > scrollSlideListWidth - scrollSlideArea.offsetWidth - 5) {
+                scrollSlideBtnNext.classList.add("hide");
+                SlideEnd = true;
+            } else {
+                scrollSlideBtnNext.classList.remove("hide");
+                SlideEnd = false;
+            }
+
+            console.log(scrollLeftValue, scrollSlideListWidth - scrollSlideArea.offsetWidth - 5)
+
+        };
+
+
+
+        
+        
+        init();
+        scrollSlideArea.addEventListener("scroll", _scroll);
+        scrollSlideBtnPrev.addEventListener("click", _onClickPrev);
+        scrollSlideBtnNext.addEventListener("click", _onClickNext);
+    }
+    
+    slideCon();
+</script>
+</body>
+</html>
