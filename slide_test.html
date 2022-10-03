@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>galaxy test</title>
+
+
+</head>
+
+<style>
+html, body, div, video, h3, figure{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+ul{text-decoration: none; margin:0; padding:0}
+li{display:block}
+.wrap{max-width:1920px; margin:200px auto; overflow:hidden}
+
+section{
+    --inner-size:980px;
+    --vw:100vw;
+}
+.scroll-slide{--scroll-bar-width:0;--slide-item-width:340px;--slide-item-height:340px;--slide-item-margin:8px;--slide-scroll-padding:50px;--slide-btn-size:52px;--slide-btn-x:-30px;display:block;position:relative;width:calc((var(--vw) - var(--inner-size))/ 2 + var(--inner-size))}
+.f_container{width:var(--inner-size); margin:0 auto; overflow:visible; position:relative}
+.scroll-slide_area{overflow-x:scroll; scroll-snap-type:x mandatory; scroll-behavior: smooth;}
+.scroll-slide_area::-webkit-scrollbar{height:2px;background-color:#d8d8d8}
+.scroll-slide_area::-webkit-scrollbar-thumb{cursor:grab; height:100%; background-color:#000}
+.slide-list{white-space:nowrap; display:inline-block}
+.slide-list li{display:inline-block; scroll-snap-align:start; width:340px; height:340px; margin-right:8px}
+.slide-list li .box{width:100%; height:100%; background-color: #eee;}
+.slide-btn{position:absolute; bottom:100px; left:0; z-index:9}
+.slide-btn button.hide{opacity: 0;}
+</style>
+
+<body>
+    <div class="wrap">
+        <section class="m_content-slide ">
+            <div class="f_container">
+                <div class="scroll-slide bespoke-list">
+                    <div class="scroll-slide_area">
+                        <ul class="slide-list">
+                            <li class="slide-item"><div class="box"></div></li>
+                            <li class="slide-item"><div class="box"></div></li>
+                            <li class="slide-item"><div class="box"></div></li>
+                            <li class="slide-item"><div class="box"></div></li>
+                            <li class="slide-item"><div class="box"></div></li>
+                        </ul>
+                        <div class="slide-btn">
+                            <button type="button" class="btn-prev">prev</button>
+                            <button type="button" class="btn-next">next</button>
+                        </div>
+                        <div class="slide-bar">
+                            <div class="bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+const slideCon = function(){    
+
+    let scrollArea = document.querySelector('.scroll-slide_area');
+    let scrollInner = document.querySelector('.slide-list');
+    let slideItem = document.querySelector('.slide-item');
+    let slideItemMargin = parseInt(getComputedStyle(slideItem).getPropertyValue('margin-right'), 10);
+    let slideItemWidth = slideItem.offsetWidth + slideItemMargin;
+    let prevBtn = document.querySelector('.btn-prev');
+    let nextBtn = document.querySelector('.btn-next');
+
+    const init = function(){
+        change();
+    }
+
+    // next버튼 클릭 이벤트
+    const nextClick = function(){
+        scrollArea.scrollLeft += slideItemWidth;
+    }
+    // prev버튼 클릭 이벤트
+    const prevClick = function(){
+        scrollArea.scrollLeft -= slideItemWidth;
+    }
+
+    const change = function(){
+        let scrollLeftValue = Math.abs(scrollArea.scrollLeft);
+
+        // prev 버튼 비활성화
+        if(scrollLeftValue === 0){
+            prevBtn.classList.add("hide");
+        }else{
+            prevBtn.classList.remove("hide");
+        }
+
+        // next 버튼 비활성화
+        if(scrollLeftValue > scrollInner.offsetWidth - scrollArea.offsetWidth - 1){
+            nextBtn.classList.add("hide");
+        }else{
+            nextBtn.classList.remove("hide");
+        }
+    }
+    
+
+    init();
+    nextBtn.addEventListener('click', nextClick);
+    prevBtn.addEventListener('click', prevClick);
+    scrollArea.addEventListener('scroll',change);
+}
+
+slideCon();
+
+</script>
+</body>
+</html>
