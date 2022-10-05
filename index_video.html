@@ -36,6 +36,9 @@ html, body, div, video, h3{
 .canvas-img-con{margin-top:200px}
 .canvas-img-con .video-con{width:580px; margin:0 auto}
 .canvas-img-con .sticky-con{background:#fff; border:2px solid #ddd; box-sizing:border-box}
+
+.video-repeat-con{margin-top:300px;}
+
 </style>
 <body>
     <div class="wrap">
@@ -49,7 +52,7 @@ html, body, div, video, h3{
 
 
             <!-- 비디오태그 스크롤 제어 -->
-            <!-- <div class="video-sticky-con">
+            <div class="video-sticky-con">
                 <div class="sticky-con">
                     <div class="video-sticky-inner">
                         <div class="video-wrap">
@@ -60,7 +63,7 @@ html, body, div, video, h3{
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <!-- 캔버스 비디오 스크롤 제어 -->
             <div class="canvas-video-con">
@@ -86,6 +89,15 @@ html, body, div, video, h3{
                         </video>
                         <div class="img-box">이미지 전환</div>
                     </div>
+                </div>
+            </div>
+
+
+            <!-- 해당영역 도달 시 비디오 재생, 반복 -->
+            <div class="video-repeat-con">
+                <div class="video-wrap">
+                    <h3 class="title">영역 도달 시 비디오 재생, 반복</h3>
+                    <video class="video" src="/images/galaxy-z-fold4_highlights_nightography.mp4" muted></video>
                 </div>
             </div>
 
@@ -116,7 +128,7 @@ html, body, div, video, h3{
 
 
 
-// 해당영역 도달 시 비디오 재생
+// 버튼 클릭 비디오 재생
 function clickVideo(){  
     const currentYOffset = window.pageYOffset; //현재 스크롤 위치
     const video = document.querySelector('.play-video-con .video');
@@ -155,31 +167,40 @@ function clickVideo(){
 
 
 // video태그 스크롤제어
-const videoScroll = function () {
-    const $section = $('.video-sticky-con');
-    const videoElem = document.querySelector('.video-sticky-con .sample-video');
-    const videoHeight = document.querySelector('.video-sticky-inner');
-
+const videoScroll = function () {   
+  const $section = $('.video-sticky-con');
+  const videoElem = document.querySelector('.video-sticky-con .sample-video');
+  let $videoHeight;
   let videoDuration;
+  
 
   const init = function () {   
-    const heightVideo = document.querySelector('.sample-video').scrollHeight;
-    $videoWrapHeight = $('.video-sticky-con .video-wrap').height(); // 타이틀,비디오 감싼 영역 높이
-    videoDuration = videoElem.duration;
+    $videoHeight = $(".video-sticky-con .video-wrap").height();
+  }
 
-    const play = function () {
+
+  const play = function () {    
+    window.addEventListener('scroll', function(){
+        videoDuration = videoElem.duration;
         const scrollTop = window.pageYOffset - $section.offset().top; //현재스크롤값 - 비디오영역 위치한 높이값 :: 비디오영역 안에서 스크롤 된 값
-        const moveArea = $section.height() - $videoWrapHeight; // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
+        const moveArea = $section.height() - $videoHeight; // 이벤트 진행 전체구간 - 고정된 박스높이 :: 이벤트가 진행될 구간 
         let percent = Math.max(0, Math.min(1, scrollTop / moveArea)); // 이벤트가 진행될 구간에서 스크롤이 진행된 비율
         let sequence = videoDuration * percent; // 비디오 전체 길이 * 스크롤 진행된 비율
         videoElem.currentTime = sequence; //비디오 현재 시간 지정
-    }
-    window.addEventListener('scroll', play);
+    })
   }
 
-  videoElem.addEventListener('loadeddata', init);
   
+    init();
+    play();
+
+
+    videoElem.addEventListener('loadedmetadata', function(){
+        init();
+        play();
+    })
 }
+
 
 
 // canvas video 스크롤제어
@@ -236,9 +257,58 @@ function autoPlay(){
         });
     }
 
+    play();
     window.addEventListener('scroll', play);
 
 }
+
+// 영역 도달 시 비디오 재생, 반복
+const playRepeat = function(){
+    const $section = $('.video-repeat-con');
+    const $video = $('.video-repeat-con video');
+    const video = document.querySelector('.video-repeat-con video');
+
+    const play = function(){
+        const currentYOffset = window.pageYOffset;
+        const $videoTop = $('.video-repeat-con').offset().top;
+        const $videoHeight = $('.video-repeat-con').height();
+
+        if(currentYOffset + window.innerHeight > $videoTop){
+            if(currentYOffset > $videoTop + $videoHeight){
+                // console.log('stop');
+                $section.removeClass('play ended');
+                $section.addClass('stop');
+            }else{
+                // console.log('play');
+                $section.addClass('play');
+                $section.removeClass('stop');
+            }
+        }else{
+            // console.log('stop');
+            $section.removeClass('play ended');
+            $section.addClass('stop');
+        }
+
+        video.addEventListener('ended', function() { // 영상 끝났을 때
+            $section.addClass('ended')
+        });
+
+        if($section.hasClass('play') && !$section.hasClass('ended')){
+            $video.get(0).play();
+        }else if($section.hasClass('stop')){
+            $video.get(0).pause();
+            $video.get(0).currentTime = 0;
+        }
+
+    }
+
+
+    play();
+    window.addEventListener('scroll', play);
+
+
+}
+
 
 
 
@@ -295,9 +365,10 @@ imageCanvas();
 
 window.addEventListener('load', function () {
     clickVideo();
-    //videoScroll();
+    videoScroll();
     videoCanvas();
     autoPlay();
+    playRepeat();
     
 });
 
