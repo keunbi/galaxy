@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<!-- <link rel="stylesheet" type="text/css" href="/css/test.css"> -->
+<style>
+html, body, div, video, h3, figure, p{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+ul{text-decoration: none; margin:0; padding:0}
+li{display:block}
+
+.sticky-con{height:2500px}
+.sticky-inner{position:sticky; top:0; height:100vh}
+
+
+.sec-01{background: #eee; position: absolute; height:500px; width:100%; z-index:9}
+.sec-02{background:#ddd}
+.sec-03{background: #eee;}
+
+</style>
+<body>
+
+    <div class="wrap">
+
+        <section class="sec-01">
+            video
+        </section>
+        <section class="sec-02">
+            <div class="sticky-con">
+                <div class="sticky-inner">
+                    <p class="txt txt-01">sticky 1</p>
+                    <p class="txt txt-01">sticky 2</p>
+                </div>
+            </div>
+        </section>
+        <section class="sec-03">
+            <div class="full-height">
+                slide
+            </div>
+        </section>
+        <section class="sec-04">
+            content
+        </section>
+
+        <!-- 캔버스 비디오 스크롤 제어 -->
+        <!-- <div class="canvas-video-con">
+            <div class="sticky-con">
+                <div class="video-sticky-inner sticky-inner">
+                    <div class="video-wrap">
+                        <div class="video-con">
+                            <canvas id="canVideo" width="1920" height="1000" data-src="/images/galaxy-z-fold4_highlights_nightography.mp4"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+
+    const fullHeight = function(){  
+        const fullHeight = document.querySelector('.full-height');
+        fullHeight.style.height = `${window.innerHeight}px`
+    }
+
+
+
+
+    const calcValue = function (step, scrollTop, moveArea) {
+        let partSpot;
+        let rv;
+
+        let partStart = moveArea * step[2].start;
+        let partEnd = moveArea * step[2].end;
+        let partArea = partEnd - partStart;
+        
+        if (scrollTop < partStart) {
+            rv = step[0];
+        } else if (scrollTop > partEnd) {
+            rv = step[1];
+        } else {
+            rv = ((scrollTop - partStart) / partArea) * (step[1] - step[0]) + step[0];
+            console.log(partStart, partEnd)
+        }
+
+        return rv;
+    }
+
+
+    const stickyAni = function(){
+        const stickyInner = document.querySelector('.sticky-inner');
+
+        const init = function(){
+            stickyInner.style.height = `${innerHeight}px`
+        }
+        
+        const play = function(){
+            const currentOffset = window.pageYOffset;
+            let scrollTop = window.pageYOffset - $('.sec-02').offset().top;
+            let moveArea = $('.sec-02').height();
+            let aniInfo;
+
+            const textScroll = function(){
+                aniInfo = [
+                    {
+                        objs: {
+                            txt01: document.querySelector('.sec-02 .txt-01')
+                        },
+                        values: {
+                            txtUp01: [10, 100, {start: 0.3, end: 0.5}]
+                        }
+                    }
+                ]
+
+                const obj = aniInfo[0].objs;
+                const value = aniInfo[0].values;
+                obj.txt01.style.width = `${calcValue(value.txtUp01, scrollTop, moveArea)}px`
+                
+            }
+
+            textScroll();
+            
+        }
+        init();
+        play();
+        window.addEventListener('scroll', play);
+    }
+
+
+    window.addEventListener('load', function () {   
+        // videoCanvas();
+        fullHeight();
+        stickyAni();
+    });
+
+    </script>
+
+</body>
+</html>
